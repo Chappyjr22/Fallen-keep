@@ -21,6 +21,9 @@ jobs:
           base = os.environ['FALLEN_KEEP_SITE'].rstrip('/')
           for item in manifest:
               rel = item['path']
+              if rel == 'public/index.html':
+                  print('skipping transformed live index; authoritative ZIP copy will be attached directly')
+                  continue
               live = rel.removeprefix('public/')
               url = base + '/' + live
               req = urllib.request.Request(url, headers={'User-Agent':'Fallen-Keep-snapshot-hydrator/1.0'})
