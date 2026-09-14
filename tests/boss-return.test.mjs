@@ -1,0 +1,10 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {bossReturn,playerView,viewSize} from '../public/boss-return.mjs';
+import {royalCombat} from '../public/royal-objectives.mjs';
+const views=[{x:0,y:0,width:1280,height:720}],players=[{x:640,y:360}],point={x:1800,y:360};
+test('boss returns only after sustained absence and keeps combat state',()=>{const e={hp:321,maxHp:900,size:100,charge:{t:.5}};for(let i=0;i<24;i++)assert.equal(bossReturn(e,point,views,players,.1,()=>true),null);const q=bossReturn(e,point,views,players,.11,()=>true);assert.ok(q);assert.ok(Math.hypot(q.x-640,q.y-360)>=300);assert.equal(e.hp,321);assert.equal(e.returnGrace,1);assert.equal(e.charge,null);assert.ok(q.x===32||q.x===1248||q.y===32||q.y===688);});
+test('visibility to either player resets timer; static banners never return',()=>{const e={offscreenFor:2.4};assert.equal(bossReturn(e,point,[...views,{x:1500,y:0,width:1280,height:720}],players,.2,()=>true),null);assert.equal(e.offscreenFor,0);assert.equal(bossReturn({royal:'banner0',offscreenFor:9},point,views,players,.1,()=>true),null);});
+test('unsafe landings are skipped without forcing teleport and all players are protected',()=>{const e={offscreenFor:3};assert.equal(bossReturn(e,point,views,players,.1,()=>false),null);const all=[...players,{x:1248,y:360}];const q=bossReturn(e,point,views,all,.6,q=>q.y===32);assert.ok(q);assert.ok(all.every(p=>Math.hypot(q.x-p.x,q.y-p.y)>=300));});
+test('view dimensions are bounded and map edge cameras are clamped',()=>{assert.deepEqual(playerView({x:20,y:20},{w:2000,h:2000},{width:1000,height:600}),{x:0,y:0,width:1000,height:600});assert.equal(viewSize({width:Infinity}).width,4000);});
+test('shield captain cannot retain or start a dash',()=>{const e={royalArt:0,charge:{t:0,go:.5},royalCast:0};royalCombat(e,{x:100,y:0},1,{move:()=>assert.fail('captain dashed'),bolt:()=>assert.fail('captain fired'),ring:()=>assert.fail('captain charged')});assert.equal(e.charge,null);});

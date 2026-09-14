@@ -1,0 +1,31 @@
+# Dependencies and generated output
+node_modules/
+dist/
+build/
+coverage/
+.vite/
+.cache/
+.wrangler/
+.sites-runtime/
+
+# Credentials and local configuration
+.env
+.env.*
+!.env.example
+!.env.sample
+.dev.vars
+.dev.vars.*
+*.pem
+*.key
+
+# Temporary files and logs
+*.log
+*.tmp
+*.temp
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+playwright-report/
+test-results/

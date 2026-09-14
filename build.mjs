@@ -1,0 +1,10 @@
+import {mkdir,rm,cp,readFile} from 'node:fs/promises';
+import {build} from 'esbuild';
+await rm('dist',{recursive:true,force:true});
+await mkdir('dist/server',{recursive:true});await mkdir('dist/.openai',{recursive:true});
+await cp('public','dist/client',{recursive:true});
+await cp('.openai/hosting.json','dist/.openai/hosting.json');
+await cp('drizzle','dist/.openai/drizzle',{recursive:true});
+await build({entryPoints:['server/worker.mjs'],outfile:'dist/server/index.js',bundle:true,format:'esm',platform:'browser',target:'es2022',minify:false,loader:{'.html':'text'}});
+const code=await readFile('dist/server/index.js','utf8');if(!code.includes('fetch(request, env, ctx)'))throw new Error('Worker entrypoint missing fetch handler');
+console.log('Built Worker, game assets, and migrations.');

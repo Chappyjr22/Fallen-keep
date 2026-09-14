@@ -1,0 +1,1 @@
+ALTER TABLE `runs` ADD `charted` integer DEFAULT 0 NOT NULL;

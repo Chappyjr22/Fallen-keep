@@ -1,0 +1,6 @@
+import {handleLayouts} from './layouts.mjs';
+import indexHtml from '../public/index.html';
+import {handleCoop} from './coop.mjs';
+import {handleApi} from './api.mjs';
+const json=(value,status)=>Response.json(value,{status,headers:{'Cache-Control':'private, no-store'}});
+export default {async fetch(request,env,ctx){const url=new URL(request.url);if(url.pathname.startsWith('/api/')){try{const pending=url.pathname.startsWith('/api/layouts')?handleLayouts(request,env):url.pathname.startsWith('/api/coop/')?handleCoop(request,env):handleApi(request,env);ctx?.waitUntil(pending.then(()=>{},()=>{}));return await pending;}catch(err){console.error('progress_error',err?.message);return json({error:'Progress is temporarily unavailable. Please retry.'},503);}}if(url.pathname==='/'||url.pathname==='/index.html')return new Response(indexHtml,{headers:{'Content-Type':'text/html; charset=utf-8','Cache-Control':'no-cache'}});if(url.pathname==='/favicon.ico')return Response.redirect(url.origin+'/favicon.svg',302);if(!env.ASSETS)return new Response('Not found',{status:404});const asset=await env.ASSETS.fetch(request);if(/\.(mjs|js|css)$/.test(url.pathname)){const response=new Response(asset.body,asset);response.headers.set('Cache-Control','no-cache');return response;}return asset;}};

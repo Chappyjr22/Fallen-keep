@@ -1,0 +1,69 @@
+{
+  "version": "7",
+  "dialect": "sqlite",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "6",
+      "when": 1789105387412,
+      "tag": "0000_productive_phalanx",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1789143258039,
+      "tag": "0001_opposite_vengeance",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1789147340626,
+      "tag": "0002_massive_blackheart",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "6",
+      "when": 1789147763637,
+      "tag": "0003_aromatic_molten_man",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "6",
+      "when": 1789152547466,
+      "tag": "0004_bitter_shape",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "6",
+      "when": 1789171211314,
+      "tag": "0005_nappy_baron_zemo",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "6",
+      "when": 1789174794566,
+      "tag": "0006_mature_malice",
+      "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "6",
+      "when": 1789179451108,
+      "tag": "0007_sour_iron_man",
+      "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "6",
+      "when": 1789224960489,
+      "tag": "0008_careless_iron_fist",
+      "breakpoints": true
+    }
+  ]
+}
