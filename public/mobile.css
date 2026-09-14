@@ -1,0 +1,178 @@
+/* Touch layouts are isolated from the desktop theme. Height matters in landscape. */
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+#overlay{display:block;padding:10px;overscroll-behavior:contain;touch-action:pan-y;overflow:auto}
+#overlay .panel{margin:0 auto;padding:16px;width:100%;max-width:900px;min-height:0;overflow:visible}
+#overlay h2,.setup-screen h2{font-size:28px;line-height:1.15;margin-bottom:8px}
+#overlay p{line-height:1.4}
+#overlay button{min-height:44px}
+#overlay .eyebrow{margin-bottom:6px;letter-spacing:.14em}
+#overlay .actions{gap:8px}
+#overlay .primary{font-size:16px;padding:10px 16px}
+#overlay .secondary{padding:10px 12px;font-size:14px}
+#overlay .title-layout{min-height:0;padding:0;gap:12px}
+#overlay .title-copy{width:100%;max-width:none}
+#overlay .title-copy h1{font-size:48px;line-height:.95;margin:10px 0}
+#overlay .title-sub{font-size:16px;margin:10px 0}
+#overlay .title-caption{display:none}
+#overlay .title-links{display:flex;flex-direction:row;flex-wrap:wrap;gap:4px 16px;margin-top:10px}
+#overlay .title-links button{font-size:16px}
+#overlay .title-play{max-width:360px;padding:10px 16px!important}
+#overlay .menu-footer{margin-top:12px;padding-top:10px;gap:8px}
+#overlay .setup-header{gap:6px 16px;margin-bottom:12px;padding-bottom:8px;flex-wrap:wrap}
+#overlay .setup-header nav{gap:10px;font-size:13px}
+#overlay .setup-intro,#overlay .setup-note{margin:8px 0 12px;font-size:15px}
+#overlay .mode-options{gap:10px;margin:12px 0}
+#overlay .mode-option{min-height:0;padding:14px}
+#overlay .mode-option h3{font-size:24px;margin:10px 0 6px}
+#overlay .mode-option p{font-size:15px}
+#overlay .mode-option strong{padding-top:12px}
+#overlay .hero-layout{gap:16px;margin:12px 0}
+#overlay .hero-roster{max-height:none;overflow:visible;grid-template-columns:repeat(3,minmax(0,1fr))}
+#overlay .hero-choice img{max-height:80px}
+#overlay .hero-detail{position:static}
+#overlay .hero-detail h3{font-size:26px}
+#overlay .hero-numbers,#overlay .starting-weapon,#overlay .unlock-copy{margin:12px 0}
+#overlay .area-options{grid-template-columns:1fr;gap:10px;margin:12px 0}
+#overlay .area-option{display:grid;grid-template-columns:90px minmax(0,1fr)}
+#overlay .area-art{height:100%;min-height:110px}
+#overlay .area-copy{padding:12px}
+#overlay .area-copy h3{font-size:22px;margin:6px 0}
+#overlay .area-copy p{font-size:14px}
+#overlay .shop-grid,#overlay .stats,#overlay .build-sections{gap:10px;margin:12px 0}
+#overlay .shop-item{padding:12px}
+#overlay .shop-item h3{font-size:21px;margin:6px 0}
+#overlay .shop-item>.glyph{width:28px;height:28px;font-size:26px}
+#overlay .build-items{gap:8px}
+#overlay .build-item{padding:8px;gap:8px}
+#overlay .build-item p{display:block}
+#overlay .reference-header{margin-bottom:10px;padding-bottom:10px}
+#overlay .reference-tabs,#overlay .reference-search{margin:10px 0}
+#overlay .catalog-card{padding:14px}
+#overlay .comic-art{max-width:560px}
+#overlay .comic-dialogue{font-size:17px;margin:10px auto}
+/* Keep the arena visible. Equipment details remain available in Pause. */
+.xp-track{height:7px;top:4px;left:8px;right:8px}
+.hud-row,.coop-top{top:18px;left:8px;right:8px;display:flex;gap:8px}
+.hud-slots{gap:2px}
+.hud-slots .slot-row,#coop-build .slot-row,.coop-top #coop-build .slot-row{grid-template-columns:repeat(6,22px);gap:2px;margin:0;width:max-content}
+#coop-build .slot-row,.coop-top #coop-build .slot-row{grid-template-columns:repeat(4,22px)}
+.slot,#coop-build .slot{width:22px;height:22px}
+.slot:empty{display:none}
+.slot .item-art,.slot .glyph{width:20px;height:20px;font-size:18px}
+.slot b{font-size:12px;line-height:12px}
+.timer,.coop-top .timer{position:absolute;left:50%;top:0;transform:translateX(-50%);font-size:22px;max-width:28%;letter-spacing:1px}
+.coop-top .timer span{font-size:22px}
+.timer small,.bottom-hint,.minimap-hint{display:none}
+.hud-right{font-size:12px;line-height:1.25}
+.hud-right strong{font-size:16px}
+.player-health{font-size:12px;margin:0}
+.hud-right>div:not(.hud-buttons){display:none}
+.hud-buttons{margin-top:4px;gap:4px}
+.hud-buttons button{width:44px;height:44px;font-size:16px}
+#minimap-button{width:80px;right:8px;bottom:8px;padding:3px;min-height:44px}
+#minimap-label,#minimap-button>span{font-size:12px}
+#minimap-canvas{margin:2px 0}
+#zone-name{left:8px;bottom:8px;font-size:12px;padding:4px 6px;max-width:40%}
+#seal-status{left:8px;bottom:34px;max-width:calc(100% - 106px);font-size:12px;padding:3px 5px}
+#enter-keep,#dungeon-action{bottom:12px;max-width:calc(100% - 190px);font-size:14px;padding:8px;min-height:44px}
+.boss-hud{top:76px;left:25%;right:25%;font-size:14px}
+.coop-team{width:145px;padding:4px 6px;font-size:12px}
+.coop-player{margin-bottom:3px}
+.coop-player span{font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.coop-player small{font-size:12px}
+.coop-team>small{display:none}
+#coop-build strong{font-size:12px;max-width:140px;margin-bottom:4px}
+#coop-controls{top:auto;bottom:8px;right:96px;gap:4px}
+#coop-controls button{min-height:44px;padding:8px;font-size:14px}
+#coop-map{display:none}
+#coop-boss{top:120px;width:42%;font-size:14px;padding:3px}
+#coop-objectives{left:8px;bottom:58px;max-width:calc(100% - 106px);padding:4px;font-size:12px}
+#coop-notice{left:8px;bottom:8px;max-width:calc(100% - 170px);font-size:12px;padding:4px}
+#arrival,#arrival.boss{font-size:16px;padding:8px;top:35%}
+@media(orientation:landscape){
+ #overlay .title-copy{display:grid;grid-template-columns:1fr 1fr;column-gap:24px;align-items:center}
+ #overlay .title-copy>.eyebrow{grid-column:1;grid-row:1}
+ #overlay .title-copy h1{grid-column:1;grid-row:2/4;font-size:46px}
+ #overlay .title-sub{display:none}
+ #overlay .title-play{grid-column:2;grid-row:1/3}
+ #overlay .title-links{grid-column:2;grid-row:3;gap:0 14px}
+ #overlay .setup-header nav{order:0;flex-basis:auto}
+ #overlay .mode-options,#overlay .build-items{grid-template-columns:repeat(2,minmax(0,1fr))}
+ #overlay .hero-layout{grid-template-columns:1fr 1fr}
+ #overlay .hero-detail{padding:0 0 0 12px;border-top:0;border-left:1px solid #76654888}
+ #overlay .hero-choice img{max-height:64px}
+ #overlay .cards{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+ #overlay .card{display:flex;min-height:0;padding:12px;gap:6px}
+ #overlay .card h3{font-size:18px}
+ #overlay .four-cards{grid-template-columns:repeat(2,minmax(0,1fr))}
+ #overlay .party-seats{margin:10px 0;gap:10px}
+ #overlay .party-seats img{width:70px;height:70px}
+ #overlay .party-seats article{padding:10px}
+ #overlay .comic-art{max-width:45vw;float:left;margin:0 16px 8px 0}
+ #overlay .comic-panel .actions{clear:both}
+}
+@media(orientation:portrait){
+ .hud-row,.coop-top{top:46px}
+ .timer,.coop-top .timer{top:-29px;max-width:none}
+ .boss-hud{top:128px;left:18%;right:18%}
+ #coop-boss{top:158px;width:60%}
+ #enter-keep,#dungeon-action{bottom:90px;max-width:85%}
+}
+/* A bounded menu frame, not a tall desktop page cropped by the phone. */
+#overlay{overflow:hidden;padding:6px;height:100%;height:100dvh}
+#overlay .panel.compact-frame{height:100%;max-height:100%;padding:8px 12px;display:flex;flex-direction:column;gap:6px;overflow:hidden;min-height:0}
+.compact-header,.compact-footer{flex:0 0 auto;background:#12211f;position:relative;z-index:1}
+.compact-header:empty,.compact-footer:empty{display:none}
+.compact-scroll{flex:1 1 0;min-height:0;overflow:auto;overscroll-behavior:contain;touch-action:pan-y;-webkit-overflow-scrolling:touch;scroll-padding:8px;padding:2px 2px 8px}
+#overlay .compact-header h2{font-size:22px;line-height:1.15;margin:0}
+#overlay .compact-header .eyebrow{font-size:12px;letter-spacing:.08em;margin:0 0 3px}
+#overlay .compact-header .setup-header{margin:0;padding:0;border:0;gap:4px 10px}
+#overlay .compact-header .setup-header button{font-size:12px}
+#overlay .compact-header .reference-header{margin:0;padding:0;border:0}
+#overlay .compact-header .reference-header p{display:none}
+#overlay .compact-footer{border-top:1px solid #756348;padding-top:6px}
+#overlay .compact-footer .actions{margin:0;gap:6px;flex-wrap:nowrap;justify-content:stretch}
+#overlay .compact-footer button{min-height:44px;font-size:14px;letter-spacing:0;padding:8px 10px;flex:1;min-width:0}
+#overlay .compact-footer .setup-next{width:100%;padding:8px!important}
+#overlay .compact-footer .setup-launch{margin:0;display:block}
+#overlay .compact-footer .setup-launch button{width:100%}
+#overlay .compact-footer .setup-launch span{display:none}
+#overlay .compact-scroll>h2{font-size:22px;margin:0 0 6px}
+#overlay .compact-scroll>.eyebrow{margin:0 0 4px}
+#overlay .compact-scroll>.setup-intro{margin:0 0 8px;font-size:14px}
+#overlay .compact-scroll .menu-footer{margin-top:10px}
+#overlay .compact-scroll .hero-layout{margin:6px 0}
+#overlay .compact-scroll .hero-roster{gap:6px}
+#overlay .compact-scroll .hero-choice{padding:4px}
+#overlay .compact-scroll .hero-choice img{max-height:48px}
+#overlay .compact-scroll .hero-choice strong{font-size:14px;margin:2px 0}
+#overlay .compact-scroll .hero-choice small{font-size:12px}
+#overlay .compact-scroll .hero-detail h3{font-size:22px;margin:4px 0}
+#overlay .compact-scroll .hero-detail>p{font-size:14px;margin:4px 0}
+#overlay .compact-scroll .starting-weapon{margin:8px 0}
+#overlay .compact-scroll .area-copy{padding:8px 12px}
+#overlay .compact-scroll .area-copy h3{font-size:20px;margin:4px 0}
+#overlay .compact-scroll .area-options{margin:6px 0}
+#overlay .compact-scroll .area-art{min-height:80px}
+#overlay .compact-scroll .build-sections{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:6px 0}
+#overlay .compact-scroll .build-sections h3{font-size:18px;margin:0 0 6px}
+#overlay .compact-scroll .build-items{grid-template-columns:1fr}
+#overlay .compact-scroll .build-item{flex-wrap:nowrap;padding:6px}
+#overlay .compact-scroll .build-item>.item-art,#overlay .compact-scroll .build-item>.glyph{width:28px;height:28px;flex-shrink:0}
+#overlay .compact-scroll .build-item strong{font-size:16px}
+#overlay .compact-scroll .build-item p{display:none}
+#overlay .compact-scroll .card{display:grid;grid-template-columns:30px minmax(0,1fr);align-content:start;gap:5px 8px;min-height:0;padding:10px}
+#overlay .compact-scroll .card>.item-art,#overlay .compact-scroll .card>.glyph{grid-row:1/3;width:30px;height:30px;font-size:26px}
+#overlay .compact-scroll .card small{font-size:12px}
+#overlay .compact-scroll .card h3{font-size:18px}
+#overlay .compact-scroll .card p,#overlay .compact-scroll .card .recipe-progress,#overlay .compact-scroll .card .pick{grid-column:1/-1}
+#overlay .compact-scroll .cards{margin:8px 0}
+#overlay .compact-scroll .mode-options{margin:8px 0}
+#overlay .compact-scroll .mode-option{padding:10px}
+#overlay .compact-scroll .mode-option h3{font-size:20px;margin:6px 0}
+#overlay .compact-scroll .mode-option p{font-size:14px;margin:4px 0}
+#overlay .compact-scroll .mode-option strong{padding-top:6px}
+@media(orientation:portrait){
+ #overlay .compact-footer .actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}
+ #overlay .compact-scroll .build-sections{grid-template-columns:1fr}
+}

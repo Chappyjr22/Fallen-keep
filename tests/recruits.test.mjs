@@ -1,0 +1,11 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {CHARACTERS} from '../public/characters.mjs';
+import {characterUnlocked,achievementState} from '../public/achievements.mjs';
+import {calculateStats} from '../public/stats.mjs';
+import {CoopWorld} from '../public/coop-model.mjs';
+import {arsenalStats} from '../public/arsenal.mjs';
+import {eligibleRecipes} from '../public/rules.mjs';
+test('new heroes unlock from saved metrics at exact thresholds',()=>{for(const [id,key,n] of [['castellan','bestTime',600],['bellkeeper','earnedCoins',500],['scholar','sealsBroken',3]]){assert(!characterUnlocked(id,achievementState({[key]:n-1})));assert(characterUnlocked(id,achievementState({[key]:n})));assert(!characterUnlocked(id));}});
+test('new character traits apply to starting weapons and permanent bonuses',()=>{const c=calculateStats(CHARACTERS.castellan,{}, {speed:1}),b=calculateStats(CHARACTERS.bellkeeper),s=calculateStats(CHARACTERS.scholar);assert.equal(c.armor,4);assert.equal(c.area,1.2);assert.equal(c.speed,126.25);assert.equal(b.cooldown,.85);assert.equal(b.amount,1);assert.equal(arsenalStats('bell',1,b).jumps,3);assert.equal(s.area,1.3);assert.equal(s.duration,1.3);assert.equal(arsenalStats('covenant',8,s).duration,5.2);assert.equal(s.damage,1.1);});
+test('each recruit has a unique weapon and can use its existing transformation in co-op',()=>{const names=['castellan','bellkeeper','scholar'];assert.equal(new Set(Object.values(CHARACTERS).map(c=>c.weapon)).size,Object.keys(CHARACTERS).length);for(const id of names){const w=new CoopWorld('courtyard',[{character:id,bonuses:{}},{character:'knight',bonuses:{}}],()=>.2);assert.deepEqual(w.players[0].inv,{[CHARACTERS[id].weapon]:1});w.step(.03);assert.equal(w.snapshot().players[0].character,id);}assert(eligibleRecipes({halberd:8,might:1}).some(r=>r.id==='reckoning'));assert(eligibleRecipes({bell:8,echo:1}).some(r=>r.id==='tempest'));assert(eligibleRecipes({tome:8,vitality:1}).some(r=>r.id==='covenant'));});

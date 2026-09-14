@@ -1,0 +1,229 @@
+/* Live game overlays. The approved title/setup theme remains in game-menu.css. */
+#overlay{background:radial-gradient(ellipse at center,#05080c88,#04070be6);overflow:hidden}
+#overlay .game-dialog{--muted:#bcb8af;--cream:#f0e3c9;--gold:#cfb079;--line:#84704c;width:min(1080px,100%);max-width:1080px;height:auto;max-height:100%;min-height:0;margin:auto;padding:24px 30px;display:flex;flex-direction:column;gap:14px;overflow:hidden;background:radial-gradient(ellipse at top,#67523529,transparent 65%),linear-gradient(135deg,#191c20,#0b1016);border:1px solid #a68b57;box-shadow:inset 0 0 0 4px #101419,0 0 0 3px #29251d,0 25px 90px #000a;color:var(--cream)}
+#overlay .game-dialog:before,#overlay .game-dialog:after{width:12px;height:12px;top:5px;transform:none;background:none;border:0;border-top:1px solid #b59a65}
+#overlay .game-dialog:before{left:5px;border-left:1px solid #b59a65}#overlay .game-dialog:after{right:5px;border-right:1px solid #b59a65}
+#overlay .game-dialog h2{font:normal 34px/1.15 Georgia;margin:2px 0 8px;letter-spacing:0;color:#f1e1bf}
+#overlay .game-dialog h3{font-weight:normal;color:#eadbc0}
+#overlay .game-dialog p{font-size:15px;line-height:1.55;color:#bcb8af}
+#overlay .game-dialog .eyebrow{font-size:12px;color:#c6a86d;letter-spacing:.18em;margin:0 0 6px}
+#overlay .game-dialog .compact-header,#overlay .game-dialog .compact-footer{background:transparent;flex:0 0 auto}
+#overlay .game-dialog .compact-header{border-bottom:1px solid #83704b66;padding:0 0 14px}
+#overlay .game-dialog .compact-header:empty,#overlay .game-dialog .compact-footer:empty{display:none}
+#overlay .game-dialog .compact-scroll{flex:1 1 auto;min-height:0;overflow:auto;overflow-x:hidden;padding:0 4px 4px;scrollbar-width:thin;scrollbar-color:#8d7851 #11161b;overscroll-behavior:contain}
+#overlay .game-dialog .compact-footer{border-top:1px solid #83704b66;padding-top:14px}
+#overlay .game-dialog .actions{margin:0;gap:10px;flex-wrap:wrap;justify-content:center}
+#overlay .game-dialog button,#overlay .game-dialog .sign-in{min-height:44px;border-radius:0;transition:border-color .15s,background .15s;font-family:Georgia;font-size:15px}
+#overlay .game-dialog .secondary{background:linear-gradient(#26292c,#13191e);border:1px solid #827050;color:#dac9a8;padding:11px 20px;box-shadow:inset 0 0 0 2px #11171c}
+#overlay .game-dialog .primary{background:linear-gradient(#59462c,#29231d);border:1px solid #d5b16d;color:#f6dfaa;box-shadow:inset 0 0 0 3px #1c1b19,inset 0 0 18px #a3783633;padding:12px 28px;letter-spacing:.06em;font-size:16px}
+#overlay .game-dialog button:hover:not(:disabled){filter:none;border-color:#e6c586;background-color:#453523}
+#overlay .game-dialog button:focus-visible,#overlay .game-dialog summary:focus-visible{outline:2px solid #edc97e;outline-offset:2px}
+#overlay .game-dialog button:disabled{opacity:.4;transform:none}
+#overlay .game-dialog .footnote{font:13px/1.5 system-ui;color:#a89f8e}
+#overlay .game-dialog .notice,#overlay .game-dialog [role=status]{color:#ddc392;overflow-wrap:anywhere}
+#overlay .game-dialog label{font:15px/1.5 system-ui;color:#d0c6b3}
+#overlay .game-dialog input,#overlay .game-dialog select{accent-color:#c6a568;background:#10161d;border-color:#89734f;color:#eadbc1}
+/* Choices have a clear item silhouette and a crimson focus state. */
+#overlay .power-dialog{width:min(1160px,100%);max-width:1160px}
+#overlay .game-dialog .cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin:16px 0}
+#overlay .game-dialog .four-cards{grid-template-columns:repeat(4,minmax(0,1fr))}
+#overlay .game-dialog .card{display:flex;flex-direction:column;align-items:center;text-align:center;min-height:0;gap:12px;padding:22px 18px 14px;background:radial-gradient(ellipse at 50% 18%,#a5843924,transparent 55%),linear-gradient(155deg,#292a2b99,#10151c);border:1px solid #786747;box-shadow:inset 0 0 0 3px #11161c;transform:none}
+#overlay .game-dialog .card:hover:not(:disabled),#overlay .game-dialog .card:focus-visible{background:radial-gradient(ellipse at top,#a76b2933,transparent 65%),linear-gradient(160deg,#4d2028,#17151c);border-color:#e2be76;transform:none}
+#overlay .game-dialog .card>.item-art,#overlay .game-dialog .card>.glyph{width:82px;height:82px;flex-shrink:0;font-size:64px;filter:drop-shadow(0 5px 5px #0008);margin:6px 0}
+#overlay .game-dialog .card small{font:12px/1.4 system-ui;color:#d4b97f;letter-spacing:.07em}
+#overlay .game-dialog .card h3{font:normal 25px/1.15 Georgia;margin:0;min-height:2.3em;display:grid;place-items:center}
+#overlay .game-dialog .card p{font:14px/1.5 system-ui;flex:0 0 auto;margin:0}
+#overlay .game-dialog .card .reward-delta{width:100%;border:0;border-top:1px solid #8b734966;padding:10px 0 0;color:#e6c486!important}
+#overlay .game-dialog .card .pick{margin-top:auto;border-top:1px solid #8c714966;padding-top:10px;width:100%;color:#e6c78c;letter-spacing:.13em;font-size:12px}
+#overlay .game-dialog .recipe-progress{text-align:left;border-color:#7a694955;color:#bcb3a2;font-size:12px;width:100%;display:flex;flex-direction:column;gap:4px}
+#overlay .game-dialog .recipe-progress.ready{color:#b8d4ba}
+/* Party choices are simultaneous: your cards left, ally's read-only cards right. */
+.party-choice-grid{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(0,1fr);gap:24px;align-items:start}
+#overlay .game-dialog .party-choice-grid>.cards{grid-template-columns:1fr;margin:0;gap:10px}
+#overlay .game-dialog .party-choice-grid .card{display:grid;grid-template-columns:58px minmax(0,1fr);gap:5px 14px;text-align:left;padding:14px;align-items:center}
+#overlay .game-dialog .party-choice-grid .card>.item-art,#overlay .game-dialog .party-choice-grid .card>.glyph{grid-row:1/4;width:58px;height:58px;font-size:48px;margin:0}
+#overlay .game-dialog .party-choice-grid .card h3{min-height:0;display:block;font-size:22px}
+#overlay .game-dialog .party-choice-grid .card p{grid-column:2}
+#overlay .game-dialog .peer-offers{background:#0d131acc;border:0;border-left:1px solid #8b754b88;text-align:left;padding:16px 18px;margin:0}
+#overlay .game-dialog .peer-offers h3{font-size:20px;margin:5px 0 16px}
+#overlay .game-dialog .peer-cards{grid-template-columns:1fr;gap:10px}
+#overlay .game-dialog .peer-cards article{background:linear-gradient(135deg,#26292b,#11171e);border:1px solid #6b604b;padding:12px;gap:12px}
+#overlay .game-dialog .peer-cards strong{font:18px Georgia;color:#e3d5b8}
+#overlay .game-dialog .peer-cards p{font-size:13px}.peer-ready{padding:14px;border:1px solid #68735e}
+/* Inventory, forge and records share the same metal surfaces. */
+#overlay .game-dialog .build-sections{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px;margin:12px 0;text-align:left}
+#overlay .game-dialog .build-items{grid-template-columns:1fr;gap:8px}
+#overlay .game-dialog .build-item{background:linear-gradient(130deg,#24272b,#11171d);border-color:#655b45;padding:10px;flex-wrap:nowrap}
+#overlay .game-dialog .build-item>.item-art,#overlay .game-dialog .build-item>.glyph{width:38px;height:38px;flex-shrink:0}
+#overlay .game-dialog .build-item p{display:none}
+#overlay .game-dialog .build-item strong{font:18px Georgia}
+#overlay .game-dialog .build-item small{font:12px system-ui;color:#bca77e}
+#overlay .game-dialog .build-item button{font-size:13px;padding:8px 10px;box-shadow:none}
+#overlay .game-dialog .build-sections h3{font:22px Georgia;margin:0 0 12px}
+#overlay .game-dialog .stat-details{background:#10171ddd;border-color:#685c45;padding:12px;font-size:14px}
+#overlay .game-dialog .stat-details summary{color:#d1b984;font-size:15px}
+#overlay .game-dialog .attribute-grid>div{border-color:#675b4044}
+#overlay .game-dialog .attribute-grid span{color:#b8b4aa}
+#overlay .game-dialog .wallet{display:flex;justify-content:center;align-items:center;gap:12px;font:32px Georgia;color:#e3c07a;margin:2px 0 12px}
+#overlay .game-dialog .wallet img{width:38px;height:38px;object-fit:contain;image-rendering:pixelated}
+#overlay .game-dialog .wallet small{font:12px system-ui;letter-spacing:.12em}
+#overlay .game-dialog .shop-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin:20px 0}
+#overlay .game-dialog .shop-item{display:grid;grid-template-columns:66px minmax(0,1fr);column-gap:18px;text-align:left;border:1px solid #77664a;background:linear-gradient(135deg,#2c2b2999,#11171e);padding:22px}
+#overlay .game-dialog .shop-item>.glyph,#overlay .game-dialog .shop-item>.item-art{grid-column:1;grid-row:1/6;width:66px;height:66px;font-size:48px;margin:auto;color:#e0bf7f;text-shadow:0 0 20px #d4a64333}
+#overlay .game-dialog .shop-item h3{font-size:23px;margin:0 0 4px}
+#overlay .game-dialog .shop-item p{margin:3px 0;font-size:14px}
+#overlay .game-dialog .shop-item progress{width:100%;height:5px;margin:10px 0 14px;accent-color:#c8a669}
+#overlay .game-dialog .shop-item button{grid-column:2}
+#overlay .game-dialog .reference-header{margin:0;border:0;padding:0;align-items:center;text-align:left}
+#overlay .game-dialog .reference-header p{font-size:14px;margin-bottom:0}
+#overlay .game-dialog .reference-tabs{gap:0;margin:12px 0}
+#overlay .game-dialog .reference-tabs button{box-shadow:none;border-color:#706046;font-size:15px;padding:11px 20px}
+#overlay .game-dialog .reference-tabs [aria-pressed=true]{background:linear-gradient(#642631,#351a23);color:#f1d195;border-color:#c1a167;box-shadow:inset 0 -2px #c1a167}
+#overlay .game-dialog .reference-search{max-width:460px;margin:12px 0;color:#b8b09e}
+#overlay .game-dialog .reference-context{border-color:#9b8050;font-size:14px;color:#b9af9d}
+#overlay .game-dialog .catalog-card,#overlay .game-dialog .achievement{background:linear-gradient(135deg,#24272b,#11171e);border:1px solid #726246;padding:20px}
+#overlay .game-dialog .catalog-card h3{font-size:24px}
+#overlay .game-dialog .catalog-card details,#overlay .game-dialog .catalog-owner,#overlay .game-dialog .recipe-note{border-color:#79654666}
+#overlay .game-dialog .catalog-links{color:#cab68f}
+#overlay .game-dialog .ingredient{background:#10171e;border-color:#5d533f}
+#overlay .game-dialog .ingredient.met{border-color:#90ac89}
+#overlay .game-dialog .achievement-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+#overlay .game-dialog .achievement.complete{border-color:#bc9c5f;background:linear-gradient(135deg,#52412c55,#11171e)}
+#overlay .game-dialog .achievement h3{font-size:23px}.game-dialog progress{accent-color:#c5a264}
+#overlay .game-dialog .achievement-reward{color:#e0bf80}
+/* Treasure stays mysterious until each actual reward is revealed. */
+#overlay .game-dialog .chest-spin{height:125px;background:radial-gradient(ellipse,#b4853b44,transparent 70%)}
+#overlay .game-dialog .chest-spin .item-art{width:60px;height:60px}
+#overlay .game-dialog .reward-list{gap:12px;margin:20px 0;align-items:stretch}
+#overlay .game-dialog .reward{width:160px;min-width:0;padding:20px 12px;background:radial-gradient(ellipse at top,#a27b352b,transparent 65%),linear-gradient(135deg,#292b2b,#10161e);border:1px solid #9b814f;box-shadow:inset 0 0 0 3px #10151a}
+#overlay .game-dialog .reward>.item-art,#overlay .game-dialog .reward>.glyph,#overlay .game-dialog .reward>.coin-reward{width:60px;height:60px;font-size:48px}
+#overlay .game-dialog .reward strong{font-size:19px;margin:12px 0}
+#overlay .game-dialog [data-evolution]{width:calc(33.333% - 12px);min-width:210px}
+#overlay .game-dialog .stats{grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:18px 0}
+#overlay .game-dialog .stat{background:linear-gradient(135deg,#292a2b99,#10171d);border:1px solid #736348;padding:20px 12px}
+#overlay .game-dialog .stat strong{font:36px Georgia;color:#e9cc90}
+#overlay .game-dialog .stat span{font:12px/1.4 system-ui;letter-spacing:.1em;color:#b9b0a1}
+#overlay .game-dialog #full-map{display:block;width:min(100%,640px);height:auto;max-height:none;object-fit:contain;margin:12px auto;border:1px solid #88734b;background:#0a1017}
+#overlay .game-dialog .map-legend{font-size:13px;gap:12px;flex-wrap:wrap}
+#overlay .game-dialog .comic-art{width:min(100%,620px);max-width:620px;float:none;margin:12px auto;border:1px solid #9b8157}
+#overlay .game-dialog .comic-dialogue{font:20px/1.5 Georgia;color:#e0d0af;max-width:720px;margin:16px auto}
+/* HUD: compact framed equipment, centered clock, counters above health. */
+#hud .xp-track{top:max(6px,env(safe-area-inset-top));left:16px;right:16px;height:9px;border-color:#a38956;box-shadow:0 0 0 2px #11161b}
+#hud .xp-fill{background:linear-gradient(#65c8ff,#1670c6);box-shadow:0 0 7px #2c9eed77}
+#hud .hud-row,#hud .coop-top{top:calc(max(6px,env(safe-area-inset-top)) + 20px);left:18px;right:18px;display:flex;align-items:flex-start;justify-content:space-between}
+#hud .hud-slots{gap:5px}
+#hud .slot-row,#hud .hud-slots .slot-row,#hud #coop-build .slot-row{grid-template-columns:repeat(6,36px);gap:4px;width:max-content}
+#hud #coop-build .slot-row{grid-template-columns:repeat(4,36px)}
+#hud .slot{width:36px;height:36px;background:#11171ed9;border-color:#ac9060;box-shadow:inset 0 0 0 2px #14191f}
+#hud .slot .item-art,#hud .slot .glyph{width:32px;height:32px;font-size:27px}
+#hud .slot b{font:600 12px/14px system-ui;right:1px;bottom:0;background:#0b1118e8;color:#f5dfae;min-width:12px;text-align:center}
+#hud .timer,#hud .coop-top .timer{position:absolute;left:50%;top:0;transform:translateX(-50%);font:28px Georgia;max-width:32%;letter-spacing:1px}
+#hud .timer small{font:11px/1.4 system-ui;letter-spacing:.13em;color:#ccbea3;display:block;margin-top:4px}
+#hud .hud-right{position:relative;padding-right:100px;text-align:right;display:flex;flex-direction:column;gap:4px;font-size:13px}
+#hud .run-counters{display:flex;align-items:center;justify-content:flex-end;gap:20px;order:-1}
+#hud .run-coins{display:inline-flex;align-items:center;gap:6px;color:#eed18d;font:18px Georgia}
+#hud .run-coins img{width:23px;height:23px;object-fit:contain;image-rendering:pixelated}
+#hud .hud-right strong{font:18px Georgia}#hud .player-health{font:12px system-ui;color:#b0d5b4}
+#hud .run-kills{font-size:12px;color:#b5b2a7}
+#hud .hud-buttons{position:absolute;top:0;right:0;margin:0;gap:6px}
+#hud .hud-buttons button,#hud #coop-controls button{background:linear-gradient(#23272bde,#0c1219eb);border:1px solid #a78b59;width:42px;height:42px;min-width:42px;min-height:42px;padding:5px;color:#ebd4a7}
+#hud #coop-controls{top:auto;bottom:18px;right:168px;gap:6px}
+#hud #coop-controls button{width:auto;padding:8px 14px}
+#hud #minimap-button{width:132px;padding:5px;right:18px;bottom:18px;border:1px solid #a68a56;background:#0a1119e8;box-shadow:inset 0 0 0 2px #24251f}
+#hud #minimap-button>span,#hud #minimap-label{font:12px Georgia;color:#d6bc82}
+#hud .minimap-hint{display:none}
+#hud .bottom-hint{display:none}
+#hud #zone-name{left:18px;bottom:20px;background:#0b111bbf;color:#d5c297;font:14px Georgia;letter-spacing:.05em;border:0;padding:5px 8px;max-width:40%}
+#hud .boss-hud,#hud #coop-boss{top:108px;left:50%;right:auto;transform:translateX(-50%);width:min(40vw,480px);padding:5px 10px;background:#10151cbb;font:16px Georgia}
+#hud .boss-track{height:7px;border-color:#b49661}#hud .boss-fill{background:linear-gradient(#b34648,#7a222f)}
+#hud #coop-boss progress{height:7px;accent-color:#ac3944}
+#hud .coop-team{width:200px;background:#0b131bd9;border:1px solid #746246;padding:8px 10px;text-align:left}
+#hud .coop-player{position:relative;margin:0 0 8px;display:grid;grid-template-columns:1fr auto;gap:3px 8px}
+#hud .coop-player span{grid-column:1/-1;font:12px Georgia;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block}
+#hud .coop-player progress{width:100%;height:5px;align-self:center;accent-color:#8db99c;margin:0}
+#hud .coop-player small{font:11px system-ui;color:#c2c9b8}
+#hud .coop-team>small{font:12px system-ui;color:#d6be89;display:block}
+#hud #coop-build strong{font:12px system-ui;color:#dac38f;margin:0 0 5px;display:block}
+#hud #coop-objectives,#hud #seal-status{background:#0e151ed9;border-left:2px solid #9d8151;color:#dbc28b;font:13px/1.4 system-ui;padding:6px 10px;max-width:calc(100% - 360px);left:18px;bottom:54px}
+#hud #coop-notice{font:13px/1.4 system-ui;background:#0c121bd9;color:#d8c6a2;max-width:calc(100% - 360px);left:18px;bottom:18px}
+#hud #dungeon-action,#hud #enter-keep{font:15px Georgia;background:#271923ee;border:1px solid #b49b67;color:#f0d7a2;min-height:44px;max-width:50%;padding:10px 18px}
+#toast{z-index:2000;background:#15171df5;border-color:#bd985d;color:#f2dab0;box-shadow:0 8px 24px #0008}
+/* Short screens keep actions fixed while the cards and details scroll. */
+@media(max-height:650px){
+ #overlay .game-dialog{padding:14px 20px;gap:10px}#overlay .game-dialog h2{font-size:28px}
+ #overlay .game-dialog .compact-header{padding-bottom:8px}#overlay .game-dialog .compact-footer{padding-top:8px}
+ #overlay .game-dialog .card{padding:14px 12px;gap:8px}#overlay .game-dialog .card>.item-art,#overlay .game-dialog .card>.glyph{width:56px;height:56px;font-size:44px;margin:0}
+ #overlay .game-dialog .card h3{font-size:22px;min-height:0}#overlay .game-dialog .cards{margin:10px 0}
+ #overlay .game-dialog .shop-item{padding:14px}#overlay .game-dialog .stat{padding:12px}
+ #overlay .game-dialog .comic-art{width:min(100%,450px)}
+}
+@media(pointer:coarse),(max-width:600px),(max-height:500px){
+ #overlay .game-dialog{padding:10px 12px;gap:8px;max-height:100%;height:100%}
+ #overlay .game-dialog h2,#overlay .game-dialog .compact-header h2{font-size:24px}
+ #overlay .game-dialog .compact-footer .actions{flex-wrap:wrap;gap:6px}
+ #overlay .game-dialog .compact-footer button{font-size:14px;min-height:44px;padding:9px 12px;flex:1}
+ #overlay .game-dialog .card{gap:6px;padding:12px}#overlay .game-dialog .card h3{font-size:20px}
+ #hud .slot-row,#hud .hud-slots .slot-row{grid-template-columns:repeat(6,26px);gap:3px}#hud #coop-build .slot-row{grid-template-columns:repeat(4,26px);gap:3px}
+ #hud .slot{width:26px;height:26px}#hud .slot:empty{display:none}#hud .slot .item-art,#hud .slot .glyph{width:23px;height:23px;font-size:21px}
+ #hud .hud-row,#hud .coop-top{left:8px;right:8px;top:22px}#hud .timer,#hud .coop-top .timer{font-size:23px}#hud .timer small{display:none}
+ #hud .hud-right{padding-right:98px}#hud .run-counters{gap:10px;display:flex!important}#hud .run-coins,#hud .hud-right strong{font-size:15px}#hud .run-coins img{width:19px;height:19px}#hud .run-kills{display:none}
+ #hud .hud-buttons button,#hud #coop-controls button{width:44px;height:44px;min-width:44px;min-height:44px}
+ #hud #minimap-button{width:86px;right:8px;bottom:8px}#hud #coop-controls{right:102px;bottom:8px}#hud #coop-controls button{width:auto}#hud #coop-map{display:none}
+ #hud #zone-name{left:8px;bottom:8px;font-size:12px}#hud .coop-team{width:165px;padding:6px}#hud .coop-team>small{display:none}
+ #hud .boss-hud,#hud #coop-boss{top:93px;width:40%;font-size:14px}
+ #hud #seal-status,#hud #coop-objectives{bottom:48px;left:8px;max-width:calc(100% - 115px);font-size:12px}
+ #hud #coop-notice{left:8px;bottom:8px;max-width:calc(100% - 200px);font-size:12px}
+ #hud #dungeon-action,#hud #enter-keep{font-size:14px;max-width:55%}
+}
+@media(max-width:680px){
+ .party-choice-grid{grid-template-columns:1fr;gap:16px}
+ #overlay .game-dialog .peer-offers{border-left:0;border-top:1px solid #8b754b88;padding:16px 0}
+ #overlay .game-dialog .cards,#overlay .game-dialog .four-cards{grid-template-columns:1fr}
+ #overlay .game-dialog .card{display:grid;grid-template-columns:58px minmax(0,1fr);gap:6px 12px;text-align:left}
+ #overlay .game-dialog .card>.item-art,#overlay .game-dialog .card>.glyph{grid-row:1/4;width:58px;height:58px;font-size:48px;margin:0}
+ #overlay .game-dialog .card h3{display:block;min-height:0;font-size:22px}
+ #overlay .game-dialog .card p,#overlay .game-dialog .card .recipe-progress,#overlay .game-dialog .card .pick{grid-column:1/-1}
+ #overlay .game-dialog .card .reward-delta{padding-top:6px}
+ #overlay .game-dialog .build-sections,#overlay .game-dialog .catalog-grid,#overlay .game-dialog .achievement-list,#overlay .game-dialog .shop-grid{grid-template-columns:1fr}
+ #overlay .game-dialog .stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}#overlay .game-dialog .stat strong{font-size:28px}
+ #overlay .game-dialog .reward{width:calc(50% - 8px);padding:14px 8px}#overlay .game-dialog [data-evolution]{width:100%}
+ #overlay .game-dialog .reference-header p{display:none}#overlay .game-dialog .reference-tabs button{padding:10px 12px}
+ #overlay .game-dialog .reference-search{max-width:none}#overlay .game-dialog .comic-dialogue{font-size:18px}
+ #hud .hud-row,#hud .coop-top{top:52px}#hud .timer,#hud .coop-top .timer{top:-31px;max-width:none}
+ #hud .hud-right{padding-right:0}#hud .hud-buttons{position:static;margin-top:3px}#hud .run-counters{gap:12px}
+ #hud .boss-hud,#hud #coop-boss{top:160px;width:65%}#hud #dungeon-action,#hud #enter-keep{bottom:102px;max-width:90%}
+}
+@media(min-width:681px) and (max-height:500px){
+ #overlay .game-dialog .card{display:grid;grid-template-columns:44px minmax(0,1fr);text-align:left;gap:5px 10px}
+ #overlay .game-dialog .card>.item-art,#overlay .game-dialog .card>.glyph{grid-row:1/3;width:44px;height:44px;font-size:36px}
+ #overlay .game-dialog .card h3{font-size:19px;display:block}#overlay .game-dialog .card p,#overlay .game-dialog .card .recipe-progress,#overlay .game-dialog .card .pick{grid-column:1/-1}
+ #overlay .game-dialog .party-choice-grid .card p{grid-column:2}#overlay .game-dialog .compact-header .eyebrow{display:none}
+ #overlay .game-dialog .comic-art{width:46%;float:left;margin:0 18px 6px 0}#overlay .game-dialog .comic-dialogue{font-size:18px}
+ #overlay .game-dialog .chest-spin{height:65px}#overlay .game-dialog .reward-list{margin:10px 0}
+}
+@media(prefers-reduced-motion:reduce){#overlay .game-dialog *{animation:none!important;transition:none!important}}
+
+.ui-item-icon{background-image:url('assets/ui-items.png');background-size:300% 200%}
+/* Equipment browser: a compact item list with one readable detail pane. */
+.catalog-browser{display:grid;grid-template-columns:minmax(220px,.8fr) minmax(0,1.7fr);gap:24px;text-align:left}
+#overlay .game-dialog .catalog-picker{display:flex;flex-direction:column;gap:7px}
+#overlay .game-dialog .catalog-picker button{display:flex;align-items:center;gap:12px;text-align:left;padding:8px 12px;min-width:0;font-size:17px}
+#overlay .game-dialog .catalog-picker .item-art,#overlay .game-dialog .catalog-picker .glyph{width:34px;height:34px;flex-shrink:0;font-size:28px}
+#overlay .game-dialog .catalog-picker button[aria-pressed=true]{background:linear-gradient(100deg,#59212b,#21171e);border-color:#d1ad67;color:#f2d5a2}
+#overlay .game-dialog .catalog-browser .catalog-grid{grid-template-columns:1fr;align-content:start;position:sticky;top:0;align-self:start}
+#overlay .game-dialog .catalog-browser .catalog-card{border:0;border-left:1px solid #7c6846;background:transparent;padding:12px 10px 12px 24px}
+#overlay .game-dialog .catalog-browser .catalog-card header>.item-art,#overlay .game-dialog .catalog-browser .catalog-card header>.glyph{width:76px;height:76px;font-size:60px}
+#overlay .game-dialog .catalog-browser .catalog-card h3{font-size:28px}
+@media(max-width:680px){.catalog-browser{grid-template-columns:1fr;gap:18px}#overlay .game-dialog .catalog-picker{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}#overlay .game-dialog .catalog-picker button{font-size:14px;padding:8px;gap:6px}#overlay .game-dialog .catalog-browser .catalog-grid{position:static}#overlay .game-dialog .catalog-browser .catalog-card{border-left:0;border-top:1px solid #7c6846;padding:16px 0}}
+
+.treasure-art{width:110px;height:110px;margin:0 auto;background:url('assets/props.png') 100% 100%/400% 200%;image-rendering:pixelated;filter:drop-shadow(0 0 20px #d7a64b55)}
+@media(max-height:650px){.treasure-art{width:65px;height:65px}}
+#overlay .game-dialog .card{align-content:start}
+@media(min-width:681px) and (max-height:500px){#overlay .game-dialog .card .recipe-progress span:last-child{display:none}}
+
+/* First-floor mission uses the same ward names and state in solo and co-op. */
+#seal-status,#coop-objectives{white-space:pre-line;line-height:1.6;max-width:560px;font-size:12px;background:rgba(9,14,17,.92);border-left:2px solid #b89b61;padding:8px 12px;text-align:left;}
+#seal-status:empty,#coop-objectives:empty{display:none}
+.ward-brief{text-align:left;border-top:1px solid #655336;padding:12px 0 0;margin-top:12px}
+.ward-brief h3{font-size:17px;margin:0 0 8px}.ward-brief>div{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.ward-brief article{border-left:2px solid var(--ward-color);padding-left:10px}.ward-brief strong{color:var(--ward-color);font-size:14px}.ward-brief small{display:block;margin:4px 0;color:#b8b4a8}.ward-brief p{font-size:13px!important;margin:6px 0!important;line-height:1.4}
+.king-finale-art{background-image:url('assets/king-finale-comic.png')!important;background-size:200% 200%!important;aspect-ratio:2/1;animation:king-reveal .7s ease-out}.king-story h2{margin:.45rem 0}.unlock-awards{display:grid;gap:12px}.unlock-awards .achievement-reward{border:1px solid #b99857;background:linear-gradient(110deg,#3e3020,#14221c);padding:16px}.unlock-awards h3{color:#f7d993;margin:0 0 6px}.unlock-awards small{color:#b9c6bd}@keyframes king-reveal{from{opacity:.1}to{opacity:1}}@media(prefers-reduced-motion:reduce){.king-finale-art{animation:none}}

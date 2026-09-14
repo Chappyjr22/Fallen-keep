@@ -1,0 +1,7 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {retainLayout,readRecovery,clearRecovery,editorRequest} from '../public/layout-recovery.mjs';
+import {templates} from '../public/layouts.mjs';
+import {MAPS} from '../public/maps.mjs';
+test('device recovery retains unsaved placement and never clears a newer edit',()=>{const old=globalThis.localStorage,values=new Map();globalThis.localStorage={setItem:(k,v)=>values.set(k,v),getItem:k=>values.get(k),removeItem:k=>values.delete(k)};try{const p=templates(MAPS.firstfloor).find(p=>!p.locked),patch={id:p.id,source:p.id,x:p.x,y:p.y,angle:0};assert(retainLayout('firstfloor',1,[patch]));assert.deepEqual(readRecovery('firstfloor').patches,[patch]);clearRecovery('firstfloor',[]);assert(readRecovery('firstfloor'));clearRecovery('firstfloor',[patch]);assert.equal(readRecovery('firstfloor'),null);globalThis.localStorage.setItem=()=>{throw Error('quota');};assert.equal(retainLayout('firstfloor',1,[patch]),false);}finally{globalThis.localStorage=old;}});
+test('session loss and non-JSON responses explain recovery without raw parser errors',async()=>{const old=globalThis.fetch;try{globalThis.fetch=async()=>Response.json({error:'Your sign-in session is unavailable.'},{status:401});await assert.rejects(()=>editorRequest('draft?map=firstfloor',{revision:0,patches:[]}),e=>e.status===401);globalThis.fetch=async()=>new Response('<html>Sign in</html>');await assert.rejects(()=>editorRequest('draft'),/unreadable response/);}finally{globalThis.fetch=old;}});

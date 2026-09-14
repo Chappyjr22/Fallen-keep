@@ -1,0 +1,2 @@
+// Shared cached XP gem texture. Retains historical key for renderer compatibility.
+export function prepareXpOrb(scene){if(scene.textures.exists('xp-orb'))return;const t=scene.textures.createCanvas('xp-orb',32,32),c=t.context;c.fillStyle='#b0e8ff';c.beginPath();c.moveTo(16,5);c.lineTo(23,15);c.lineTo(16,27);c.lineTo(9,17);c.closePath();c.fill();c.fillStyle='#53b6ef';c.beginPath();c.moveTo(16,8);c.lineTo(21,16);c.lineTo(16,24);c.lineTo(12,17);c.closePath();c.fill();t.refresh();}

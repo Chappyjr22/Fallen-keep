@@ -1,0 +1,15 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {ITEMS,choices,eligibleItems,chestCount,chestRewards,eligibleRecipes,speedFor,inArc} from '../public/rules.mjs';
+const sequence=(...n)=>{let i=0;return ()=>n[i++%n.length]};
+test('chests award every count with the intended boundaries',()=>{assert.deepEqual([0,.39999,.4,.7,.88,.97,.99999].map(chestCount),[1,1,2,3,4,5,5]);});
+test('evolution requires a max weapon and the matching passive',()=>{assert.equal(eligibleRecipes({sword:7,frost:5}).length,0);assert.equal(eligibleRecipes({sword:8}).length,0);assert.equal(eligibleRecipes({sword:8,frost:1})[0].id,'winter');});
+test('evolution replaces sword, keeps passive, consumes one reward slot',()=>{const r=chestRewards({sword:8,frost:1},sequence(.1));assert.deepEqual(r.inventory,{winter:1,frost:1});assert.equal(r.rewards.length,1);assert.equal(r.rewards[0].type,'evolution');assert.ok(!eligibleItems(r.inventory).includes('sword'));});
+test('fusion consumes both weapons and frees a slot',()=>{const r=chestRewards({sword:8,shield:8,wand:2},sequence(.1));assert.deepEqual(r.inventory,{legion:1,wand:2});assert.ok(!eligibleItems(r.inventory).includes('shield'));});
+test('five rewards may all be currency and do not mutate the input',()=>{const inv={sword:1};const r=chestRewards(inv,sequence(.99,.1,.2,.1,.2,.1,.2,.1,.2,.1,.2));assert.equal(r.rewards.length,5);assert.ok(r.rewards.every(x=>x.type==='gold'));assert.deepEqual(inv,{sword:1});});
+test('sequential rewards do not exceed maximum levels',()=>{const inv=Object.fromEntries(Object.entries(ITEMS).filter(([k,i])=>!i.evolved).map(([k,i])=>[k,i.max]));delete inv.sword;inv.winter=1;inv.frost=7;const r=chestRewards(inv,sequence(.99,.9,0,.9,0));assert.equal(r.inventory.frost,8);assert.equal(r.rewards.filter(x=>x.id==='frost').length,1);assert.equal(r.rewards.length,5);});
+test('level-up options are unique and include only eligible upgrades',()=>{for(let i=0;i<200;i++){const inv={sword:8,frost:5,shield:3};const opts=choices(inv);assert.equal(new Set(opts).size,opts.length);assert.equal(opts.length,3);assert.ok(opts.every(k=>eligibleItems(inv).includes(k)));}});
+test('sword hits only nearby targets inside the sweep',()=>{assert.ok(inArc(0,0,50,0,0,100,1));assert.ok(!inArc(0,0,101,0,0,100,1));assert.ok(!inArc(0,0,-50,0,0,100,1));});
+test('permanent bonuses apply to each character base speed',()=>{assert.equal(speedFor(100,1),101);assert.equal(speedFor(120,1),121.2);assert.equal(speedFor(100,3,10),113.30000000000001);});
+
+test('chests only upgrade owned equipment and use coins after it reaches mastery',()=>{const inv={wand:7,might:7};const r=chestRewards(inv,()=>.99);assert.equal(r.rewards.length,5);assert.equal(r.inventory.wand,8);assert.equal(r.inventory.might,8);assert.deepEqual(Object.keys(r.inventory).sort(),['might','wand']);assert.equal(r.rewards.filter(x=>x.type==='gold').length,3);assert.ok(r.rewards.filter(x=>x.type==='item').every(x=>Object.hasOwn(inv,x.id)));assert.ok(chestRewards({wand:8,might:8},()=>.99).rewards.every(x=>x.type==='gold'));});

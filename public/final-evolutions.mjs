@@ -1,0 +1,19 @@
+export const FINAL_ITEMS={
+ starfall:{name:'Astral Dominion',kind:'weapon',max:1,evolved:true,glyph:'✦',desc:'A constellation of arcane lances strikes nearby enemies and bursts into damaging starfire.'},
+ briar:{name:'Briar Sovereign',kind:'weapon',max:1,evolved:true,rangerIcon:0,desc:'A full circle of piercing thorn volleys tears through enemies. Each volley rotates to cover the gaps.'},
+ requiem:{name:'Saint’s Requiem',kind:'weapon',max:1,evolved:true,rewardIcon:0,desc:'A vast sacred incense pulse burns the surrounding horde, followed by lingering consecrated ground.'}
+};
+export const FINAL_RECIPES=[
+ {id:'starfall',requires:{wand:8,echo:1},consume:['wand'],label:'Arcane Wand VIII + Echo Shard'},
+ {id:'briar',requires:{bow:8,haste:1},consume:['bow'],label:'Thornwood Bow VIII + Wayfarer Boots'},
+ {id:'requiem',requires:{censer:8,vitality:1},consume:['censer'],label:'Hallowed Censer VIII + Crimson Heart'}
+];
+let serial=0;
+export function castFinalEvolutions(ctx){const {inv,cool,stats,position:p,targets,point,dead,radius,clear,damage,effect,pool}=ctx;const emit=f=>effect({id:'final'+(++serial),life:.7,t:.7,...f});const alive=()=>targets.filter(e=>!dead(e));
+ if(inv.starfall&&!(cool.starfall>0)){const chosen=alive().filter(e=>Math.hypot(point(e).x-p.x,point(e).y-p.y)<720&&clear(p,point(e))).sort((a,b)=>Math.hypot(point(a).x-p.x,point(a).y-p.y)-Math.hypot(point(b).x-p.x,point(b).y-p.y)).slice(0,Math.min(12,6+(stats.amount||0)));if(chosen.length){cool.starfall=.9;for(const target of chosen){const q={x:point(target).x,y:point(target).y};emit({kind:'astral',x:p.x,y:p.y,toX:q.x,toY:q.y,r:55*stats.area});for(const e of alive())if(Math.hypot(point(e).x-q.x,point(e).y-q.y)<55*stats.area+radius(e)&&clear(q,point(e)))damage(e,150*stats.damage);}}}
+ if(inv.briar&&!(cool.briar>0)){cool.briar=1.1;const count=Math.min(24,12+(stats.amount||0)),r=570*stats.area,rotation=serial*.23;for(let i=0;i<count;i++){const a=rotation+i*Math.PI*2/count;emit({kind:'briar',x:p.x,y:p.y,a,r});for(const e of alive()){const q=point(e),dx=q.x-p.x,dy=q.y-p.y,along=dx*Math.cos(a)+dy*Math.sin(a),cross=Math.abs(-dx*Math.sin(a)+dy*Math.cos(a));if(along>=0&&along<=r&&cross<18*stats.area+radius(e)&&clear(p,q))damage(e,175*stats.damage);}}}
+ if(inv.requiem&&!(cool.requiem>0)){cool.requiem=1.8;const r=245*stats.area;emit({kind:'requiem',x:p.x,y:p.y,r});for(const e of alive())if(Math.hypot(point(e).x-p.x,point(e).y-p.y)<r+radius(e)&&clear(p,point(e)))damage(e,200*stats.damage);pool({x:p.x,y:p.y,r:r*.8,duration:2.2*(stats.duration||1),damage:42*stats.damage,kind:'consecration'});}
+}
+export function drawFinalEvolution(g,f){const alpha=Math.max(0,f.t/.7),progress=1-alpha;if(f.kind==='astral'){g.lineStyle(4,0xbab1ff,alpha).lineBetween(f.x,f.y,f.toX,f.toY);g.lineStyle(2,0xede6ff,alpha).strokeCircle(f.toX,f.toY,f.r*progress);for(let i=0;i<4;i++){const a=i*Math.PI/2+.785;g.lineBetween(f.toX-Math.cos(a)*18,f.toY-Math.sin(a)*18,f.toX+Math.cos(a)*18,f.toY+Math.sin(a)*18);}return true;}if(f.kind==='briar'){const d=f.r*Math.min(1,progress*2),x=f.x+Math.cos(f.a)*d,y=f.y+Math.sin(f.a)*d;g.lineStyle(3,0x82dba7,alpha).lineBetween(x-Math.cos(f.a)*65,y-Math.sin(f.a)*65,x,y);for(const sign of [-1,1])g.lineBetween(x,y,x-Math.cos(f.a+sign*.5)*20,y-Math.sin(f.a+sign*.5)*20);return true;}if(f.kind==='requiem'){g.lineStyle(4,0xffe6b0,alpha).strokeCircle(f.x,f.y,f.r*(.65+progress*.35));g.lineStyle(2,0xe8f9df,alpha*.5).strokeCircle(f.x,f.y,f.r*(.35+progress*.4));return true;}return false;}
+
+export function drawConsecration(g,p,time){const fade=Math.min(1,(p.t??p.time)/.7);g.fillStyle(0xdad7a5,.055*fade).fillCircle(p.x,p.y,p.r);g.lineStyle(2,0xf7e7b5,.4*fade).strokeCircle(p.x,p.y,p.r);for(let i=0;i<14;i++){const a=i*2.399+time*.2,r=p.r*(.25+(i%4)*.2);g.fillStyle(0xffefd0,.5*fade).fillCircle(p.x+Math.cos(a)*r,p.y+Math.sin(a)*r-(time*18+i*7)%32,2);}}

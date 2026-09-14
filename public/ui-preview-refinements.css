@@ -1,0 +1,103 @@
+/* Preview /03: character framing, equipment readability, and reward selection. */
+.hero-screen{padding:26px 4% 20px}
+.screen-heading{padding-bottom:16px}
+.character-layout{grid-template-columns:minmax(0,42%) minmax(0,58%);gap:0;align-items:center;padding:20px 0}
+.roster-side{max-height:100%;padding-right:24px}
+.roster{gap:10px}
+.hero-tile{aspect-ratio:.9;max-height:170px}
+.hero-tile img{transform:none;object-fit:cover;object-position:top;filter:brightness(.92)}
+.hero-tile:hover img,.hero-tile[aria-pressed=true] img{transform:none;filter:brightness(1.12)}
+.hero-tile span{font-size:14px;line-height:1.2;padding:22px 4px 9px}
+.roster-note,#party-note{font-size:13px;color:#aaa698}
+.hero-showcase{grid-template-columns:minmax(0,45%) minmax(0,55%);height:min(100%,560px);gap:8px}
+.hero-display{height:100%;min-height:240px}
+.hero-display>img{position:absolute;bottom:19%;width:96%;height:72%;max-height:none;object-fit:contain;object-position:center bottom;filter:drop-shadow(0 4px 3px #0008)}
+.pedestal{bottom:12%;height:7%;width:94%;transform:none;border-top:2px solid #8f7d59;box-shadow:inset 0 5px 6px #ffffff08,0 6px 0 #080a0d;background:linear-gradient(#3a3831,#181b1e)}
+.hero-halo{height:90%;bottom:4%;background:radial-gradient(ellipse,#9c865124,transparent 68%)}
+.hero-info{padding:10px 8px 10px 0}
+.hero-info h2{font-size:34px;margin:8px 0 20px}
+.hero-info .kicker{font-size:12px;letter-spacing:.12em}
+.hero-stats{gap:22px;padding:16px 0}
+.hero-stats dd{font-size:28px}
+.hero-stats dt,.weapon-line small{font-size:12px;color:#b6ad99}
+.weapon-line .item{width:48px;height:48px}
+.weapon-line strong{font-size:20px}
+.trait p,.unlock p{font-size:16px;line-height:1.5;color:#cdc6b7}
+.unlock{font-size:14px;color:#c1ad86}
+.screen-footer>span{font-size:12px;color:#aaa18f}
+.inventory{gap:6px}
+.inventory>div{gap:5px}
+.inventory .slot{width:43px;height:43px;border-color:#978361;box-shadow:inset 0 0 8px #0009}
+.inventory .item{width:37px;height:37px}
+.inventory b{right:1px;bottom:0;min-width:15px;text-align:center;font:600 13px/17px system-ui;color:#fff1cf;background:#0c1015ed;border-radius:2px}
+.run-clock small{font-size:12px;letter-spacing:.1em}
+.run-status{font-size:18px;gap:10px}
+.coin{width:25px;height:25px;object-fit:contain;image-rendering:pixelated}
+.ally-health{width:158px;font-size:12px;top:83px}
+.ally-health small{font-size:12px}
+.mini-map span{font-size:12px}
+.preview-controls button{font-size:14px}
+button:disabled{cursor:default}
+.reward-dialog{width:min(1000px,94vw);max-height:calc(100dvh - 40px);padding:16px 28px 20px;background:radial-gradient(ellipse at 50% 0,#44362a66,transparent 65%),linear-gradient(135deg,#17191d,#0a0e13);border-color:#b59a64;scrollbar-width:thin;scrollbar-color:#82704c #11151a}
+.reward-dialog .dialog-heading{margin:0}
+.reward-title{text-align:center;margin:0 0 24px}
+.reward-title h2{font-size:36px;color:#f0dfbc;margin:6px 0 10px}
+.reward-title p{margin:0;font-size:16px}
+.reward-title .kicker{font-size:12px;letter-spacing:.24em}
+.reward-options{gap:18px}
+.reward-option{position:relative;align-items:center;text-align:center;gap:0;padding:20px 18px 0;border:1px solid #6e6048;background:linear-gradient(155deg,#25282a88,#10151b);box-shadow:inset 0 0 0 4px #101418,0 9px 20px #0005;min-width:0;transition:border-color .15s,background .15s,transform .15s}
+.reward-option:hover{border-color:#b6a075;transform:translateY(-3px)}
+.reward-option[aria-pressed=true]{border-color:#e3c17b;background:radial-gradient(ellipse at 50% 25%,#ab6e2930,transparent 65%),linear-gradient(160deg,#411d24,#17141b);box-shadow:inset 0 0 0 4px #191315,0 0 20px #b887271e}
+.reward-type{font:12px/1.4 system-ui;letter-spacing:.1em;color:#c4b28e}
+.reward-art{display:grid;place-items:center;width:130px;height:128px;flex-shrink:0;background:radial-gradient(ellipse,#b3894533,transparent 68%);margin:8px auto}
+.reward-art .item{width:100px;height:100px;filter:drop-shadow(0 5px 7px #0009)}
+.reward-option strong{font-size:24px;line-height:1.15;min-height:55px;display:grid;align-items:center;color:#f2e2c3}
+.reward-rank{font:13px/1.5 system-ui;color:#c5bca8;letter-spacing:.06em;margin:10px 0 18px}
+.reward-rank b{font-size:18px;color:#f5d48f}
+.reward-rank>span{margin:0 5px;color:#e9ba68}
+.reward-deltas{width:100%;border-top:1px solid #8a714b66;min-height:114px;padding:10px 0;text-align:left;font:14px/1.4 system-ui}
+.reward-deltas>span{display:flex;justify-content:space-between;gap:8px;padding:5px 0;flex-wrap:wrap}
+.reward-deltas>span>span:first-child{color:#c6c1b7}
+.reward-deltas s{text-decoration:none;color:#a5a295}
+.reward-deltas i{font-style:normal;margin:0 3px;color:#98794a}
+.reward-deltas b{color:#f3d18a;white-space:nowrap}
+.reward-flavor{font:italic 14px/1.4 Georgia;color:#aea493;min-height:45px;margin:6px 0 14px}
+.reward-selected{width:calc(100% + 36px);font:12px system-ui;letter-spacing:.16em;padding:12px;border-top:1px solid #6e604866;color:#a59c89}
+.reward-option[aria-pressed=true] .reward-selected{color:#ffe0a0;background:linear-gradient(90deg,#651e2555,#711e2c,#651e2555);border-top-color:#a27f44}
+.reward-footer{display:flex;justify-content:space-between;gap:18px;align-items:center;margin-top:24px}
+.reward-footer .dialog-actions{margin:0;gap:8px}
+.reward-footer .metal{min-width:0;padding:13px 18px}
+.reward-footer .gold{font-size:16px}
+.reward-dialog .reward-note{font:12px/1.4 system-ui;color:#aaa08d;text-align:center;margin:18px 0 0}
+.reward-confirm{text-align:center;padding:12px 0 8px}
+.reward-confirm .reward-art{width:160px;height:160px}
+.reward-confirm .reward-art .item{width:128px;height:128px}
+.reward-confirm h2{font-size:36px;margin:12px 0}
+.reward-confirm .reward-rank{color:#edc57b;font-size:18px}
+.reward-confirm .metal{margin-top:12px}
+@media(min-width:1450px){.hero-tile{max-height:180px}.hero-showcase{height:min(100%,600px)}}
+@media(max-width:1100px){.hero-showcase{grid-template-columns:40% 60%}.hero-info h2{font-size:28px}.hero-stats{gap:16px}.hero-stats dd{font-size:25px}.roster{grid-template-columns:repeat(3,minmax(0,1fr))}.hero-tile{max-height:150px}.reward-dialog{padding:14px 20px 18px}.reward-options{gap:12px}.reward-option{padding:18px 12px 0}.reward-option strong{font-size:22px}.reward-selected{width:calc(100% + 24px)}}
+@media(max-height:700px){.hero-screen{padding-top:14px}.screen-heading{padding-bottom:10px}.character-layout{padding:12px 0}.hero-tile{max-height:122px}.hero-showcase{height:100%}.hero-display{min-height:180px}.hero-info h2{font-size:27px;margin-bottom:10px}.hero-stats{padding:9px 0;margin-bottom:12px}.trait{margin-top:10px}.unlock{margin-top:8px}.trait p,.unlock p{font-size:14px}.reward-title{margin-bottom:12px}.reward-title h2{font-size:28px}.reward-art{height:90px;width:100px;margin:5px auto}.reward-art .item{width:78px;height:78px}.reward-option{padding-top:12px}.reward-option strong{min-height:48px;font-size:22px}.reward-rank{margin:6px 0 10px}.reward-deltas{min-height:94px;font-size:13px}.reward-flavor{display:none}.reward-footer{margin-top:14px}.reward-dialog .reward-note{margin-top:12px}}
+@media(max-height:500px){.character-layout{align-items:stretch}.hero-info{overflow:auto}.hero-stats{gap:12px}.hero-tile span{font-size:12px;padding-bottom:6px}.inventory .slot{width:32px;height:32px}.inventory .item{width:28px;height:28px}.inventory b{font-size:12px;line-height:14px}.run-clock small{font-size:11px}.run-status{font-size:15px}.reward-dialog{max-height:calc(100dvh - 16px)}.reward-title h2{font-size:25px}.reward-title p{display:none}.reward-dialog .dialog-heading{height:28px}.reward-options{gap:8px}.reward-art{width:70px;height:60px}.reward-art .item{width:58px;height:58px}.reward-type{font-size:11px}.reward-option strong{font-size:18px;min-height:40px}.reward-deltas{min-height:0}.reward-selected{padding:8px}.reward-footer .metal{padding:8px 12px}.reward-dialog .reward-note{margin-top:8px}}
+@media(max-width:600px) and (orientation:portrait){.character-layout{display:block;overflow:auto}.roster-side{padding-right:0}.roster{grid-template-columns:repeat(4,minmax(0,1fr))}.hero-tile{max-height:none}.hero-showcase{height:auto;min-height:340px;grid-template-columns:40% 60%;padding-top:18px}.hero-display{height:340px}.hero-info{max-height:none;overflow:visible}.hero-tile span{font-size:12px}.inventory .slot{width:32px;height:32px}.inventory .item{width:28px;height:28px}.inventory b{font-size:12px;line-height:14px}.run-status{top:158px}.ally-health{top:210px}.reward-dialog{padding:12px 16px}.reward-options{grid-template-columns:1fr}.reward-option{display:grid;grid-template-columns:76px 1fr;column-gap:12px;text-align:left;padding:12px}.reward-type{grid-column:2;grid-row:1}.reward-art{grid-column:1;grid-row:1/4;width:76px;height:90px;margin:0}.reward-art .item{width:72px;height:72px}.reward-option strong{grid-column:2;min-height:0;font-size:22px}.reward-rank{grid-column:2;margin:5px 0}.reward-deltas{grid-column:1/-1;min-height:0;margin-top:10px}.reward-flavor{display:none}.reward-selected{grid-column:1/-1;width:100%;text-align:center;margin-top:8px;padding:8px}.reward-footer{flex-direction:column;align-items:stretch}.reward-footer .dialog-actions{justify-content:center}}
+@media(prefers-reduced-motion:reduce){.reward-option:hover{transform:none}}
+/* Only the selected reward gets crimson; hover must not imply a second selection. */
+.reward-option:not([aria-pressed=true]):hover{background:linear-gradient(155deg,#34312a,#15191f)}
+@media(max-height:500px) and (min-width:601px){
+ .reward-dialog{padding:8px 18px 10px}
+ .reward-title{margin:0 0 10px}
+ .reward-title .kicker{display:none}
+ .reward-title h2{font-size:24px;margin:0}
+ .reward-option{display:grid;grid-template-columns:52px minmax(0,1fr);gap:6px;padding:10px 10px 0;text-align:left}
+ .reward-type{grid-column:1/-1;font-size:11px;text-align:center}
+ .reward-art{grid-column:1;grid-row:2/4;width:52px;height:62px;margin:0}
+ .reward-art .item{width:50px;height:50px}
+ .reward-option strong{grid-column:2;font-size:18px;min-height:0}
+ .reward-rank{grid-column:2;margin:0;font-size:12px}
+ .reward-deltas{grid-column:1/-1;padding:4px 0;margin-top:3px;font-size:13px;min-height:89px}
+ .reward-deltas>span{padding:3px 0;gap:4px}
+ .reward-selected{grid-column:1/-1;text-align:center;width:calc(100% + 20px);margin-left:-10px;padding:8px;font-size:11px}
+ .reward-footer{margin-top:10px}
+ .reward-dialog .reward-note{display:none}
+}
+@media(max-width:600px) and (orientation:portrait){.reward-footer{position:sticky;bottom:-12px;background:linear-gradient(#11151bef,#11151b 22%);padding:12px 0 6px;margin-bottom:-6px;gap:10px}.reward-footer .metal{min-height:44px}.reward-title h2{font-size:30px}}
