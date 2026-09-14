@@ -6,7 +6,9 @@ export {UPGRADES,upgradePrice};
 export let account=null;
 const runModes=new Map();
 let hadAccountSession=false;
-async function serverApi(path,body,keepalive=false){const response=await fetch('/api/'+path,{method:body?'POST':'GET',credentials:'same-origin',headers:body?{'Content-Type':'application/json'}:{},...(body?{body:JSON.stringify(body)}:{}),keepalive:keepalive||path==='run/checkpoint',signal:AbortSignal.timeout(15000)});let data;try{data=await response.json();}catch{throw new Error('Could not reach your saved progress. Please retry.');}if(!response.ok){const error=new Error(data.error||'Could not save. Please retry.');error.status=response.status;throw error;}return data;}
+const PLAYER_KEY='fallen-keep-player-id';
+function playerId(){try{let id=localStorage.getItem(PLAYER_KEY);if(id&&/^[a-f0-9-]{36}$/i.test(id))return id;id=crypto.randomUUID();localStorage.setItem(PLAYER_KEY,id);return id;}catch{return crypto.randomUUID();}}
+async function serverApi(path,body,keepalive=false){const headers={'X-Fallen-Keep-Player':playerId(),...(body?{'Content-Type':'application/json'}:{})};const response=await fetch('/api/'+path,{method:body?'POST':'GET',credentials:'same-origin',headers,...(body?{body:JSON.stringify(body)}:{}),keepalive:keepalive||path==='run/checkpoint',signal:AbortSignal.timeout(15000)});let data;try{data=await response.json();}catch{throw new Error('Could not reach your saved progress. Please retry.');}if(!response.ok){const error=new Error(data.error||'Could not save. Please retry.');error.status=response.status;throw error;}return data;}
 export async function api(path,body,keepalive=false){
  const local=path==='run/checkpoint'&&runModes.has(body?.runId)?runModes.get(body.runId):guestMode;
  const data=local?guestRequest(path,body):await serverApi(path,body,keepalive);
