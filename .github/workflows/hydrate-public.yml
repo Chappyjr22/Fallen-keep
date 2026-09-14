@@ -1,0 +1,130 @@
+name: hydrate Fallen Keep public snapshot
+on:
+  push:
+    branches: [snapshot-hydrate-v7]
+permissions:
+  contents: write
+jobs:
+  hydrate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Download public snapshot files
+        env:
+          FALLEN_KEEP_SITE: https://fallen-keep.jacobchapman3.chatgpt.site
+        run: |
+          python - <<'PY'
+          import pathlib, urllib.request, os
+          paths='''public/achievements.mjs
+public/arsenal.mjs
+public/ascent-story.mjs
+public/assets/PHASER-LICENSE.md
+public/assets/arsenal.png
+public/assets/ascent-comic.png
+public/assets/castle.png
+public/assets/characters.png
+public/assets/coins.png
+public/assets/crown-items.png
+public/assets/crownless.png
+public/assets/dungeon-wall.png
+public/assets/facade.png
+public/assets/fallen-keep-logo.png
+public/assets/ground.png
+public/assets/guardians.png
+public/assets/king-comic.png
+public/assets/king-finale-comic.png
+public/assets/map-scroll.png
+public/assets/phaser.min.js
+public/assets/props.png
+public/assets/ranger.png
+public/assets/recruits.png
+public/assets/rewards.png
+public/assets/royal-enemies.png
+public/assets/royal-furnishings.png
+public/assets/royal-materials.png
+public/assets/royal-props.png
+public/assets/seal-art.png
+public/assets/starter-heroes.png
+public/assets/ui-castle-backdrop.png
+public/assets/ui-items.png
+public/assets/ui-sections.png
+public/assets/witch.png
+public/boss-return.mjs
+public/characters.mjs
+public/chest-guides.mjs
+public/combat-visuals.mjs
+public/compact-menus.mjs
+public/controller.mjs
+public/coop-model.mjs
+public/coop-network.mjs
+public/coop-party.mjs
+public/coop-presentation.mjs
+public/coop-protocol.mjs
+public/coop-tuning.mjs
+public/coop-ui.mjs
+public/crownless.mjs
+public/dungeon-renderer.mjs
+public/dungeon.mjs
+public/enemy-art.mjs
+public/enemy-tiers.mjs
+public/favicon.svg
+public/final-evolutions.mjs
+public/game-menu.css
+public/game-ui.css
+public/game.js
+public/guest.mjs
+public/king-story.mjs
+public/layout-editor.mjs
+public/layout-recovery.mjs
+public/layout-save.mjs
+public/layouts.mjs
+public/loot-capacity.mjs
+public/maps.mjs
+public/menu-art.mjs
+public/minimap.mjs
+public/mobile.css
+public/party-lobby.mjs
+public/passive-icons.mjs
+public/progression-rules.mjs
+public/progression.mjs
+public/recruit-art.mjs
+public/reference-ui.mjs
+public/rewards.mjs
+public/royal-interior.mjs
+public/royal-objectives.mjs
+public/royal-visuals.mjs
+public/rules.mjs
+public/run-rules.mjs
+public/seals.mjs
+public/start-menu.mjs
+public/starter-milestones.mjs
+public/starter-traits.mjs
+public/stats.mjs
+public/style.css
+public/ui-panels.mjs
+public/ui-preview-refinements.css
+public/ui-preview-screens.css
+public/ui-preview-screens.mjs
+public/ui-preview.css
+public/ui-preview.mjs
+public/unlock-notices.mjs
+public/weapon-unlocks.mjs
+public/xp-orb.mjs'''.splitlines()
+          base=os.environ['FALLEN_KEEP_SITE'].rstrip('/')
+          for rel in paths:
+              url=base+'/'+rel.removeprefix('public/')
+              req=urllib.request.Request(url,headers={'User-Agent':'Fallen-Keep-snapshot-hydrator/1.0'})
+              with urllib.request.urlopen(req,timeout=60) as r: data=r.read()
+              p=pathlib.Path(rel); p.parent.mkdir(parents=True,exist_ok=True); p.write_bytes(data)
+              print(rel,len(data))
+          PY
+      - name: Commit hydrated files
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add public
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "chore: hydrate Fallen Keep public snapshot"
+          git push origin HEAD:snapshot-hydrate-v7
