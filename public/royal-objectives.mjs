@@ -31,7 +31,7 @@ export function wardBrief(s){return `<section class="ward-brief"><h3>Break the t
 export const claimMarkers=s=>[...CLAIMS.filter(q=>q.id!=='banners'||s.broken!==7).map(q=>({...q,kind:q.id==='west'||q.id==='east'?'ward-oath':q.id==='tome'?'ward-lore':'ward-crown',label:q.id==='west'?'I · West captain':q.id==='east'?'I · East captain':q.id==='tome'?'II · Tome':'III · Banners',done:q.id==='banners'?s.champion===2:s[q.id]===2})),...(s.broken===7?[{...CHAMPION,kind:'ward-crown',label:'III · Champion',done:s.champion===2}]:[]),{...KING_STAIR,kind:'gate'}, {...FOUNTAIN,kind:'heart'}];
 export function royalStrength(q,time,party=1){const hp=Math.round(q.hp*(1+Math.min(time,1800)/1800)*party);return {hp,maxHp:hp,damage:q.id==='king'?38:24,speed:q.art===4?0:q.art===1?105:120,radius:q.art===4?30:40,size:q.id==='king'?170:130,xp:q.art===4?10:400,slowCap:.2,knockFactor:.08};}
 // Telegraph every charge before moving. The same simulation drives solo and co-op.
-export function royalCombat(e,p,dt,api){if(e.royalArt===0||e.royalArt===4){e.charge=null;return;}if(e.charge){e.charge.t-=dt;if(e.charge.t>0){api.ring(e.charge.x,e.charge.y,90,0xe5bb68);return;}if(!e.charge.go){e.charge.go=.55;const d=Math.hypot(e.charge.x-e.x,e.charge.y-e.y)||1;e.charge.vx=(e.charge.x-e.x)/d*520;e.charge.vy=(e.charge.y-e.y)/d*520;}e.charge.go-=dt;api.move(e.charge.vx*dt,e.charge.vy*dt);if(e.charge.go<=0)e.charge=null;return;}e.royalCast=(e.royalCast??2)-dt;if(e.royalCast>0||Math.hypot(e.x-p.x,e.y-p.y)>900)return;const rage=e.hp<e.maxHp*.5;e.royalCast=rage?2.5:4;const a=Math.atan2(p.y-e.y,p.x-e.x);if(e.royalArt===0||e.royalArt===2){e.charge={x:p.x,y:p.y,t:.85};}else {const n=e.royalArt===3?(rage?12:8):5;for(let i=0;i<n;i++)api.bolt(e.x,e.y,a+(e.royalArt===3?i*Math.PI*2/n:(i-2)*.16),rage?240:185,e.damage*.7);if(e.royalArt===3&&rage)e.charge={x:p.x,y:p.y,t:1};}}
+export function royalCombat(e,p,dt,api){if(e.kingProtected){e.charge=null;api.ring(e.x,e.y,145,0x9d86c8);return;}if(e.royalArt===0||e.royalArt===4){e.charge=null;return;}if(e.charge){e.charge.t-=dt;if(e.charge.t>0){api.ring(e.charge.x,e.charge.y,90,0xe5bb68);return;}if(!e.charge.go){e.charge.go=.55;const d=Math.hypot(e.charge.x-e.x,e.charge.y-e.y)||1;e.charge.vx=(e.charge.x-e.x)/d*520;e.charge.vy=(e.charge.y-e.y)/d*520;}e.charge.go-=dt;api.move(e.charge.vx*dt,e.charge.vy*dt);if(e.charge.go<=0)e.charge=null;return;}e.royalCast=(e.royalCast??2)-dt;if(e.royalCast>0||Math.hypot(e.x-p.x,e.y-p.y)>900)return;const rage=e.hp<e.maxHp*.5||e.kingFinalStand;e.royalCast=e.kingFinalStand?1.8:rage?2.5:4;const a=Math.atan2(p.y-e.y,p.x-e.x);if(e.royalArt===0||e.royalArt===2){e.charge={x:p.x,y:p.y,t:.85};}else {const n=e.royalArt===3?(rage?12:8):5;for(let i=0;i<n;i++)api.bolt(e.x,e.y,a+(e.royalArt===3?i*Math.PI*2/n:(i-2)*.16),rage?240:185,e.damage*.7);if(e.royalArt===3&&rage)e.charge={x:p.x,y:p.y,t:1};}}
 
 export function wardMessage(s,id){
  if(claimsComplete(s))return 'All three wards broken. The King’s Stair is open. Return to the Council Chamber stair.';
@@ -41,5 +41,35 @@ export function wardMessage(s,id){
  return s.broken===7?'The banners fall. Defeat the King’s First Blade to break the Crown Ward.':'A cursed banner burns. Destroy the remaining banners, then defeat the champion.';
 }
 
-// Summoned guards grant XP but never chests. Bounded independently of ambient waves.
-export function kingSummons(e,dt,active){if(e.dead||e.royal!=='king')return 0;e.summonClock=(e.summonClock??12)-dt;if(e.summonClock>0||active>=20)return 0;const rage=e.hp<e.maxHp*.5;e.summonClock=rage?12:18;return Math.min(20-active,rage?10:6);}
+// Corrupted King 2.0: health-gated guard phases. The king cannot lose health below a
+// gate while its wave is alive, so burst builds cannot skip encounter beats. Summoned
+// guards still grant XP but never chests; callers mark the returned enemies as minions.
+export const KING_GATES=Object.freeze([
+ {threshold:.75,size:6,label:'FIRST OATH'},
+ {threshold:.50,size:9,label:'BROKEN CROWN'},
+ {threshold:.25,size:12,label:'LAST WARD'}
+]);
+function kingShield(e,on){e.kingProtected=on;if(e.s?.setAlpha)e.s.setAlpha(on ? .72 : 1);if(on&&e.s?.setTint)e.s.setTint(0x8f78bc);else if(!on&&e.s?.clearTint)e.s.clearTint();}
+export function kingSummons(e,dt,active){
+ if(e.dead||e.royal!=='king')return 0;
+ e.kingGateIndex??=0;
+ // While a gate is active, hold the king exactly at that threshold until every
+ // oathbound guard from the authored wave has fallen.
+ if(e.kingProtected){
+  const gate=KING_GATES[e.kingGateIndex];
+  if(!gate){kingShield(e,false);e.kingFinalStand=true;return 0;}
+  e.hp=Math.max(e.hp,Math.ceil(e.maxHp*gate.threshold));
+  if(active>0)return 0;
+  kingShield(e,false);
+  e.kingGateIndex++;
+  if(e.kingGateIndex>=KING_GATES.length)e.kingFinalStand=true;
+  return 0;
+ }
+ const gate=KING_GATES[e.kingGateIndex];
+ if(!gate)return 0;
+ if(e.hp>e.maxHp*gate.threshold)return 0;
+ e.hp=Math.ceil(e.maxHp*gate.threshold);
+ e.kingGateLabel=gate.label;
+ kingShield(e,true);
+ return gate.size;
+}
