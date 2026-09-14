@@ -1,0 +1,22 @@
+import {MAPS,baseMapProps} from './maps.mjs';
+import {walkable} from './dungeon.mjs';
+import {royalRugs,KING_STAIR} from './royal-interior.mjs';
+import {CLAIMS} from './royal-objectives.mjs';
+import {SEALS} from './seals.mjs';
+const bundles=new Map([[0,{}]]);
+export const propId=p=>[p.atlas,p.frame??'single',p.x,p.y].join(':');
+export function templates(map){return baseMapProps(map).map(p=>({...p,id:propId(p),source:propId(p),angle:0,locked:!!p.objective||p.atlas==='facade'||p.atlas==='map-scroll'||p.atlas==='royal-furnishings'&&p.frame===0||map.id==='firstfloor'&&p.atlas==='props'&&p.frame===1||p.atlas==='props'&&p.frame===0}));}
+export function resolveProps(map,patches=map.layout||[]){const base=templates(map),sources=new Map(base.map(p=>[p.id,p])),byId=new Map(base.map(p=>[p.id,p]));for(const a of patches){const p=sources.get(a.source);if(!p||p.locked)continue;if(a.deleted)byId.delete(a.id);else byId.set(a.id,{...p,...a});}return [...byId.values()];}
+export function validateLayout(mapId,patches){if(!Object.hasOwn(MAPS,mapId)||!Array.isArray(patches)||patches.length>200)throw new Error('Layout must contain at most 200 edits.');const map=MAPS[mapId],base=new Map(templates(map).map(p=>[p.id,p])),seen=new Set();return patches.map(a=>{const p=base.get(a?.source);if(!p||p.locked||typeof a.id!=='string'||(a.id!==p.id&&!/^copy-[a-f0-9-]{36}$/.test(a.id))||seen.has(a.id))throw new Error('Invalid or protected furnishing.');seen.add(a.id);if(a.deleted===true)return {id:a.id,source:p.id,deleted:true};if(!Number.isFinite(a.x)||!Number.isFinite(a.y)||!Number.isInteger(a.angle)||a.angle%90||Math.abs(a.angle)>360||!walkable(map,a.x,a.y,Math.max(16,p.r||0)))throw new Error('Place furniture inside the walkable area.');return {id:a.id,source:p.id,x:Math.round(a.x),y:Math.round(a.y),angle:a.angle};});}
+export function bounds(p){const corners=[[-p.w/2,-p.h*.8],[p.w/2,-p.h*.8],[p.w/2,p.h*.2],[-p.w/2,p.h*.2]],a=(p.angle||0)*Math.PI/180,pts=corners.map(([x,y])=>({x:p.x+x*Math.cos(a)-y*Math.sin(a),y:p.y+x*Math.sin(a)+y*Math.cos(a)}));return {x:Math.min(...pts.map(p=>p.x)),y:Math.min(...pts.map(p=>p.y)),w:Math.max(...pts.map(p=>p.x))-Math.min(...pts.map(p=>p.x)),h:Math.max(...pts.map(p=>p.y))-Math.min(...pts.map(p=>p.y))};}
+export function warnings(map,p,all){const out=[],b=bounds(p),overlap=c=>b.x<c.x+c.w&&b.x+b.w>c.x&&b.y<c.y+c.h&&b.y+b.h>c.y;
+ if(!walkable(map,p.x,p.y,Math.max(p.r||0,16)))out.push('Collision overlaps a wall.');
+ if(map.id==='firstfloor'&&royalRugs(map).some(c=>overlap({x:c.x-120,y:c.y-120,w:240,h:240})))out.push('Artwork overlaps a carpet path.');
+ const points=[map.spawn,map.gate,map.stairs,map.id==='firstfloor'?KING_STAIR.approach:null,...(map.id==='basement'?SEALS:[]),...(map.id==='firstfloor'?Object.values(CLAIMS):[])].filter(p=>p&&Number.isFinite(p.x));
+ if(points.some(q=>Math.hypot(q.x-p.x,q.y-p.y)<(p.r||0)+220))out.push('Near a spawn, doorway or objective. Keep access clear.');
+ if(all.some(q=>q.id!==p.id&&q.r&&p.r&&Math.hypot(q.x-p.x,q.y-p.y)<q.r+p.r))out.push('Collision overlaps another furnishing.');return out;
+}
+export class LayoutHistory{constructor(value=[]){this.value=structuredClone(value);this.past=[];this.future=[];}set(value){this.past.push(structuredClone(this.value));if(this.past.length>100)this.past.shift();this.value=structuredClone(value);this.future=[];}undo(){if(!this.past.length)return;this.future.push(this.value);this.value=this.past.pop();}redo(){if(!this.future.length)return;this.past.push(this.value);this.value=this.future.pop();}}
+export function installBundle(version,bundle){if(!Number.isSafeInteger(version)||version<0)throw new Error('Invalid layout version');const checked={};for(const [id,patches] of Object.entries(bundle))checked[id]=validateLayout(id,patches);bundles.set(version,checked);}
+export function mapAtVersion(id,version=0){const bundle=bundles.get(version);if(!bundle)throw new Error('The party layout has not loaded.');return {...MAPS[id],layout:structuredClone(bundle[id]||[])};}
+export async function loadLayouts(version){if(version!==undefined&&bundles.has(version))return version;const r=await fetch('/api/layouts'+(version===undefined?'':'?version='+version),{credentials:'same-origin',cache:'no-store',signal:AbortSignal.timeout(10000)});if(!r.ok)throw new Error('Could not load the level layout. Please retry.');const d=await r.json();installBundle(d.version,d.bundle);return d.version;}
