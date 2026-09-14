@@ -63,3 +63,7 @@ The first live integration replaces title, solo setup and co-op setup/lobby pres
 ### Remaining live screen integration
 
 `game-ui.css` now owns live HUD and non-setup dialogs. `compact-menus.mjs` frames all non-title overlays at desktop sizes, superseding earlier statements that other desktop dialogs remain unframed. Cards and peer cards are grouped without replacing their nodes; the last action row or known single Continue/Return button is pinned. `reference-ui.mjs` stores the selected catalog item and only redraws results when searching/selecting. Real equipment rules remain the source of descriptions and recipe readiness. See [second-batch evidence and limits](../ui-live-integration.md). No server or game-rule changes were required.
+
+## Audio mini-run
+
+`public/audio-manager.mjs` owns WebAudio and saved mute/mixer settings. `game.js` configures the five approved mini-run samples, preloads on interaction, and routes solo events; `coop-ui.mjs` observes presentation state for co-op sounds. Winter plays sword plus frost. Production sample suppression must not fall through to oscillator cues. See `docs/audio-foundation-status.md` and `tests/audio-manager.test.mjs`.

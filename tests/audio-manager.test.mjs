@@ -32,3 +32,19 @@ test('volume and mute changes persist',()=>{
  a.setVolume('music',.33);a.setMuted(true);const b=new AudioDirector({storage:s,AudioContextCtor:null});
  assert.equal(b.settings.music,.33);assert.equal(b.settings.muted,true);
 });
+
+test('approved assets never fall back when throttled or unavailable',async()=>{
+ const a=new AudioDirector({storage:storage(),AudioContextCtor:null});let fallback=0;
+ a.legacyTone=()=>{fallback++;return true;};a.register('approved',{variants:['approved.ogg']});
+ a.play=async()=>false;assert.equal(await a.cue('approved',[440]),false);
+ a.play=async()=>{throw Error('decode failed');};assert.equal(await a.cue('approved',[440]),false);
+ assert.equal(fallback,0);assert.equal(await a.cue('ui.confirm',[440]),true);assert.equal(fallback,1);
+ a.setMuted(true);await a.cue('ui.confirm',[440]);assert.equal(fallback,1);
+});
+
+test('simultaneous playback respects voice cap after context unlock',async()=>{
+ let starts=0;const node=()=>({gain:{value:0},connect(){}});
+ class Context{constructor(){this.state='running';this.destination={};}createGain(){return node();}createBufferSource(){return{playbackRate:{value:1},connect(){},start(){starts++;}};}}
+ const a=new AudioDirector({storage:storage(),AudioContextCtor:Context});a.register('once',{variants:['cached'],cooldown:0,maxVoices:1});a.buffers.set('cached',{});
+ await Promise.all([a.play('once'),a.play('once')]);assert.equal(starts,1);
+});

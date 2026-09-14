@@ -1,3 +1,4 @@
+import {gameAudio} from './audio-manager.mjs';
 import {drawConsecration} from './final-evolutions.mjs';
 import {KING_ENTRANCE,KING_DEFEAT,kingSceneArt,playKingStory} from './king-story.mjs';
 import {pendingUnlocks,unlockCards} from './unlock-notices.mjs';
@@ -85,7 +86,17 @@ export class CoopArena extends Phaser.Scene{
   if(s.texture.key!==texture)s.setTexture(texture,frame);if(animation){if(s.anims.currentAnim?.key!==animation||!s.anims.isPlaying)s.play(animation);}else{s.stop();if(frame!==undefined)s.setFrame(frame);}if(animation){if(this.animationsPaused)s.anims.pause();else if(s.anims.isPaused)s.anims.resume();}
   const k=this.own===0||(key.startsWith('e')&&Math.hypot(x-s.x,y-s.y)>500)?1:Math.min(1,dt*14);s.x+=(x-s.x)*k;s.y+=(y-s.y)*k;s.setDisplaySize(w,h).setDepth(y).setFlipX(flip).setAlpha(alpha);if(tint)s.setTint(tint);else s.clearTint();s.seen=true;return s;
  }
+ renderAudio(){
+  const s=this.state,p=s.players[this.own],stage=s.stage||0;
+  if(this.audioStage!==stage){this.audioStage=stage;this.audioSeen=new Set();this.audioLevel=p.level;this.audioHp=p.hp;}
+  if(p.level>this.audioLevel)gameAudio.cue('level.up');
+  if(this.audioHp>0&&p.hp<=0)gameAudio.cue('player.death');
+  this.audioLevel=p.level;this.audioHp=p.hp;
+  for(const f of s.effects){if(this.audioSeen.has(f.id))continue;this.audioSeen.add(f.id);if(f.kind==='slash'||f.kind==='frostslash'){gameAudio.cue('weapon.sword.swing',null,{gain:f.kind==='frostslash'?.82:1});if(f.kind==='frostslash')gameAudio.cue('weapon.winter.cast',null,{gain:.68});}}
+  while(this.audioSeen.size>512)this.audioSeen.delete(this.audioSeen.values().next().value);
+ }
  renderWorld(dt){
+  this.renderAudio();
   const s=this.state;this.animationsPaused=this.blocked();const effects=this.own===0?s.effects.filter(f=>f.t>0):this.effectTimeline.update(s.effects,dt,this.animationsPaused);for(const v of this.visuals.values())v.seen=false;this.fx.clear();this.groundFx.clear();this.bars.clear();animateRoyalAtmosphere(this,this.groundFx,s.time);drawClaimGround(this.groundFx,this.map.id,s.claims||createClaims(),s.time);
   for(const p of s.players){const c=CHARACTERS[p.character],v=this.visual('p'+p.id,p.x,p.y,c.texture,'cell0',72,72,.94,p.hp>0&&p.moving?c.walk:null,Math.cos(p.facing)<0,p.hp>0?(p.immune>0?.75:1):.4,p.flash>0?0xff7068:null,dt);if(p.id===this.own&&!this.following){this.camera.startFollow(v,true,1,1);this.following=true;}this.groundFx.lineStyle(2,p.id===this.own?0xd9bd74:0x6de5ed,.8).strokeEllipse(v.x,v.y+2,36,14);this.bars.fillStyle(0x151613).fillRect(v.x-22,v.y+10,44,5).fillStyle(p.hp>0?0x67c287:0xffd374).fillRect(v.x-22,v.y+10,p.hp>0?44*p.hp/p.stats.health:44*p.revive/3,5);
    if(p.inv.censer)drawCenser(this.groundFx,v.x,v.y,censerStats(p.inv.censer).radius*p.stats.area,s.time);
