@@ -2,8 +2,9 @@ const freeze=o=>Object.freeze(o);
 
 export const MAP_EVENTS=freeze({
  forgotten_grave:freeze({
-  id:'forgotten_grave',mapId:'courtyard',kind:'discovery',repeat:'account',hidden:true,
-  placement:'west_memorial_grave',reward:freeze({type:'future-character-hook',id:'gravebinder'}),
+  id:'forgotten_grave',mapId:'courtyard',kind:'conditional',repeat:'account',hidden:true,
+  placement:'west_memorial_grave',conditions:freeze({requiredItems:freeze(['lantern'])}),
+  reward:freeze({type:'future-character-hook',id:'gravebinder'}),
   text:'An old grave bears a name the Keep tried to forget.'
  }),
  hungry_chest:freeze({
