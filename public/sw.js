@@ -1,4 +1,4 @@
-const CACHE='fallen-keep-pwa-v3';
+const CACHE='fallen-keep-pwa-v4';
 const CORE=[
   '/',
   '/index.html',
@@ -11,6 +11,7 @@ const CORE=[
   '/style.css',
   '/mobile.css',
   '/game-menu.css',
+  '/character-progression.css',
   '/game-ui.css',
   '/game.js',
   '/assets/phaser.min.js'
