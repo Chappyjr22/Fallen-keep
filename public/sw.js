@@ -1,4 +1,4 @@
-const CACHE='fallen-keep-pwa-v2';
+const CACHE='fallen-keep-pwa-v3';
 const CORE=[
   '/',
   '/index.html',
@@ -29,16 +29,21 @@ self.addEventListener('fetch',event=>{
   if(request.method!=='GET')return;
   const url=new URL(request.url);
   if(url.origin!==self.location.origin)return;
-  if(url.pathname.startsWith('/api/'))return;
+  // Cloudflare Access owns /api/* auth enforcement and /cdn-cgi/access/*
+  // (login, logout, cert) redirects; neither may be cached or intercepted,
+  // since caching a logout/login response under the app-shell key would
+  // surface stale or cross-account UI on the next offline load.
+  if(url.pathname.startsWith('/api/')||url.pathname.startsWith('/cdn-cgi/'))return;
 
   if(request.mode==='navigate'){
+    const isAppShell=url.pathname==='/'||url.pathname==='/index.html';
     event.respondWith((async()=>{
       try{
         const response=await fetch(request);
-        const cache=await caches.open(CACHE);
-        cache.put('/index.html',response.clone());
+        if(isAppShell&&response.ok){const cache=await caches.open(CACHE);cache.put('/index.html',response.clone());}
         return response;
       }catch{
+        if(!isAppShell)throw new Error('offline');
         return (await caches.match('/index.html')) || (await caches.match('/'));
       }
     })());
