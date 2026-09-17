@@ -7,6 +7,10 @@
     "directory": "./dist/client",
     "binding": "ASSETS"
   },
+  "vars": {
+    "ACCESS_TEAM_DOMAIN": "jacobchapman3.cloudflareaccess.com",
+    "ACCESS_AUD": "07342f972b3b48990dbed1dba932e980f460f51fbedeb34e0ab04ace7f106f89"
+  },
   "d1_databases": [
     {
       "binding": "DB",
