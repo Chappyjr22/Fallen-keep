@@ -1,4 +1,4 @@
-const CACHE='fallen-keep-pwa-v5';
+const CACHE='fallen-keep-pwa-v6';
 const CORE=[
   '/',
   '/index.html',
@@ -16,6 +16,8 @@ const CORE=[
   '/game.js',
   '/map-encounters-runtime.mjs',
   '/mimic-event.mjs',
+  '/courtyard-events.mjs',
+  '/courtyard-runtime.mjs',
   '/assets/phaser.min.js'
 ];
 
