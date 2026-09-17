@@ -1,9 +1,13 @@
-const CACHE='fallen-keep-pwa-v1';
+const CACHE='fallen-keep-pwa-v2';
 const CORE=[
   '/',
   '/index.html',
   '/manifest.webmanifest',
   '/favicon.svg',
+  '/icons/icon-192.png',
+  '/icons/icon-512.png',
+  '/icons/icon-192-maskable.png',
+  '/icons/icon-512-maskable.png',
   '/style.css',
   '/mobile.css',
   '/game-menu.css',
