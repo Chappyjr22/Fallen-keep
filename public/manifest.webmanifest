@@ -1,0 +1,26 @@
+{
+  "name": "Fallen Keep",
+  "short_name": "Fallen Keep",
+  "description": "A pixel-art medieval fantasy survival game with automatic combat and evolving weapons.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "landscape",
+  "background_color": "#101916",
+  "theme_color": "#101916",
+  "categories": ["games"],
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ]
+}
