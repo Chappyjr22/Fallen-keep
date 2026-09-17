@@ -1,0 +1,32 @@
+.start-shell .hero-choice.locked img,
+.start-shell .hero-detail.locked .hero-platform img{
+  filter:brightness(0) saturate(0);
+  opacity:.82;
+}
+.start-shell .hero-choice.locked{
+  background:linear-gradient(145deg,#10151b,#080b0f);
+  border-color:#4c463a;
+}
+.start-shell .hero-choice.locked small{
+  color:#8f846f;
+  letter-spacing:.06em;
+}
+.start-shell .hero-detail.locked .hero-platform{
+  background:radial-gradient(ellipse at bottom,#6c604128,transparent 65%);
+  border-bottom-color:#504936;
+}
+.start-shell .hero-detail.locked .locked-mystery{
+  max-width:390px;
+  margin:0 auto 18px;
+  color:#9f9686;
+  font-style:italic;
+}
+.start-shell .hero-detail.locked .locked-weapon{
+  min-height:54px;
+  color:#887f70;
+}
+.start-shell .hero-detail.locked .unlock-copy{
+  border-top:1px solid #8d76504f;
+  padding-top:16px;
+  color:#d6bd85;
+}
