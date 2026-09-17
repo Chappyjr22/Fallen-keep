@@ -1,0 +1,18 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "fallen-keep",
+  "main": "./dist/server/index.js",
+  "compatibility_date": "2026-09-14",
+  "assets": {
+    "directory": "./dist/client",
+    "binding": "ASSETS"
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "fallen-keep",
+      "database_id": "1326a87b-60f0-47f2-9fc6-2e80fd0a3afd",
+      "migrations_dir": "drizzle"
+    }
+  ]
+}
