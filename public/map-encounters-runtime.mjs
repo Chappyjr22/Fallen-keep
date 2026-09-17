@@ -29,4 +29,4 @@ function tick(scene){const runId=scene.runSave?.id||null;if(runId!==state.runId)
 
 function attach(scene){if(state.scene===scene)return;state.scene=scene;scene.events?.on?.('update',()=>tick(scene));}
 
-const timer=setInterval(()=>{const scene=activeArena();if(scene){attach(scene);if(scene.sys?.isDestroyed?.())clearInterval(timer);}},250);
+const timer=setInterval(()=>{const scene=activeArena();if(scene){attach(scene);clearInterval(timer);}},250);
