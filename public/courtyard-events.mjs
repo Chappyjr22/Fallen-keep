@@ -4,7 +4,11 @@ export const FORGOTTEN_GRAVE_ID='forgotten_grave';
 export const FORGOTTEN_GRAVE=freeze({x:1600,y:3600,radius:92});
 
 export const COURTYARD_BELLS=freeze([
- freeze({id:'west_bell',name:'The Western Bell',area:'Forgotten Graveyard',x:1450,y:2450,ringAt:180}),
+ // ringAt avoids 180s: that exact tick is also the game's independently
+ // scheduled first elite spawn (see begin()'s eliteAt=180), which would
+ // otherwise guarantee two elites converge on every brand-new character's
+ // very first encounter with this content.
+ freeze({id:'west_bell',name:'The Western Bell',area:'Forgotten Graveyard',x:1450,y:2450,ringAt:200}),
  freeze({id:'east_bell',name:'The Eastern Bell',area:'Bellwatch Ruins',x:10950,y:2450,ringAt:420}),
  freeze({id:'south_bell',name:'The Lower Bell',area:'Lower Bailey',x:6200,y:7200,ringAt:720})
 ]);

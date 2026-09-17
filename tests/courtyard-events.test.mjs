@@ -4,8 +4,8 @@ import {FORGOTTEN_GRAVE,COURTYARD_BELLS,forgottenGraveAvailable,nextBellTower,be
 
 test('courtyard bell schedule is ordered and non-repeating',()=>{
  assert.equal(COURTYARD_BELLS.length,3);
- assert.equal(nextBellTower(179,[]),null);
- assert.equal(nextBellTower(180,[]).id,'west_bell');
+ assert.equal(nextBellTower(199,[]),null);
+ assert.equal(nextBellTower(200,[]).id,'west_bell');
  assert.equal(nextBellTower(500,['west_bell']).id,'east_bell');
  assert.equal(nextBellTower(900,['west_bell','east_bell']).id,'south_bell');
  assert.equal(nextBellTower(900,['west_bell','east_bell','south_bell']),null);

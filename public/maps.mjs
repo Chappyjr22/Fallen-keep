@@ -2,7 +2,7 @@ import {resolveProps} from './layouts.mjs';
 import {royalProps,KING_STAIR} from './royal-interior.mjs';
 import {dungeon,firstFloorDungeon,TILE} from './dungeon.mjs';
 export const MAPS={
- courtyard:{id:'courtyard',name:'The Royal Courtyard',w:6200,h:4800,spawn:{x:3100,y:4200},gate:{x:3100,y:850},tint:0xffffff,difficulty:1,chartSpots:[{x:1050,y:900},{x:4350,y:950},{x:1050,y:3300},{x:4350,y:3300}],zones:[{name:'Royal Approach',x:3100,y:1350,r:820},{name:'Forgotten Graveyard',x:1100,y:1600,r:700},{name:'Bellwatch Ruins',x:4300,y:1600,r:700},{name:'Lower Bailey',x:3100,y:3900,r:800},{name:'Ruined Court',x:3100,y:2600,r:1000}]},
+ courtyard:{id:'courtyard',name:'The Royal Courtyard',w:6200,h:4800,spawn:{x:3100,y:4200},gate:{x:3100,y:850},tint:0xffffff,difficulty:1,chartSpots:[{x:1050,y:900},{x:4350,y:950},{x:1050,y:3300},{x:4350,y:3300}],zones:[{name:'Royal Approach',x:3100,y:1350,r:820},{name:'Forgotten Graveyard',x:1100,y:1600,r:700},{name:'Bellwatch Ruins',x:5100,y:1400,r:700},{name:'Lower Bailey',x:3100,y:3900,r:800},{name:'Ruined Court',x:3100,y:2600,r:1000}]},
  basement:{id:'basement',name:'The Keep Basement',w:4800,h:3840,spawn:{x:2400,y:3180},tint:0x77908c,difficulty:1.12,stairs:{x:2400,y:540},dungeon:dungeon(),chartSpots:[{x:780,y:2940},{x:4020,y:1500},{x:2400,y:540}],zones:dungeon().rooms.map(([x,y,w,h,name])=>({name,x:(x+w/2)*TILE,y:(y+h/2)*TILE,r:Math.min(w,h)*TILE/2}))},
  firstfloor:{id:'firstfloor',name:'The First Floor',w:4800,h:3840,spawn:{x:2400,y:3240},tint:0xb2a68b,difficulty:1.3,dungeon:firstFloorDungeon(),chartSpots:[{x:780,y:1500},{x:4020,y:1500}],zones:firstFloorDungeon().rooms.map(([x,y,w,h,name])=>({name,x:(x+w/2)*TILE,y:(y+h/2)*TILE,r:Math.min(w,h)*TILE/2}))}
 };
