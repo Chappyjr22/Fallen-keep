@@ -1,4 +1,32 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {RunSave} from '../public/progression.mjs';
-test('overlapping and older checkpoints retain the latest coins, map, seals and finalization for retries',async()=>{const oldFetch=globalThis.fetch,oldStorage=globalThis.localStorage,stored=new Map(),requests=[];globalThis.localStorage={setItem:(k,v)=>stored.set(k,v),getItem:k=>stored.get(k),removeItem:k=>stored.delete(k)};let fail=true;globalThis.fetch=async(_,o)=>{requests.push(JSON.parse(o.body));return Response.json(fail?{error:'retry'}:{saved:true},{status:fail?403:200});};try{const save=new RunSave('ordering',()=>{}),latest=save.save({gold:100,kills:50,elapsed:90,runSeals:3,exploration:{revealed:true}},true),stale=save.save({gold:20,kills:10,elapsed:20,runSeals:1,exploration:{revealed:false}});await Promise.allSettled([latest,stale]);const pending=JSON.parse(stored.get('fallen-keep-pending:ordering'));assert.equal(pending.gold,100);assert.equal(pending.elapsed,90);assert.equal(pending.seals,3);assert(pending.charted&&pending.finished);fail=false;await save.save({gold:20,kills:10,elapsed:20});assert(save.closed);assert.equal(requests.at(-1).gold,100);assert.equal(stored.size,0);const count=requests.length;await save.save({gold:0,kills:0,elapsed:0});assert.equal(requests.length,count);assert.equal(stored.size,0);}finally{globalThis.fetch=oldFetch;globalThis.localStorage=oldStorage;}});
+
+test('overlapping and older checkpoints retain the latest coins, map, seals and finalization for retries',async()=>{
+ const oldFetch=globalThis.fetch,oldStorage=globalThis.localStorage,stored=new Map(),requests=[];
+ globalThis.localStorage={setItem:(k,v)=>stored.set(k,v),getItem:k=>stored.get(k),removeItem:k=>stored.delete(k)};
+ let fail=true;
+ globalThis.fetch=async(_,o)=>{requests.push(JSON.parse(o.body));return Response.json(fail?{error:'retry'}:{saved:true},{status:fail?403:200});};
+ try{
+  const save=new RunSave('ordering',()=>{}),latest=save.save({gold:100,kills:50,elapsed:90,runSeals:3,exploration:{revealed:true}},true),stale=save.save({gold:20,kills:10,elapsed:20,runSeals:1,exploration:{revealed:false}});
+  await Promise.allSettled([latest,stale]);
+  const pendingKey='fallen-keep-pending:ordering';
+  const pending=JSON.parse(stored.get(pendingKey));
+  assert.equal(pending.gold,100);
+  assert.equal(pending.elapsed,90);
+  assert.equal(pending.seals,3);
+  assert(pending.charted&&pending.finished);
+  fail=false;
+  await save.save({gold:20,kills:10,elapsed:20});
+  assert(save.closed);
+  assert.equal(requests.at(-1).gold,100);
+  assert.equal(stored.has(pendingKey),false);
+  const count=requests.length;
+  await save.save({gold:0,kills:0,elapsed:0});
+  assert.equal(requests.length,count);
+  assert.equal(stored.has(pendingKey),false);
+ }finally{
+  globalThis.fetch=oldFetch;
+  globalThis.localStorage=oldStorage;
+ }
+});
