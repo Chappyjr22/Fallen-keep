@@ -1,13 +1,14 @@
 import {api,account} from './progression.mjs';
 import {eventDiscovered} from './map-events.mjs';
 import {MIMIC_EVENT_ID,hungryChestPosition,hungryChestAvailable,mimicBossStats} from './mimic-event.mjs';
+import * as Game from './game.js';
 
 const state={scene:null,runId:null,chest:null,mimic:null,finished:false,lungeAt:0,lungeEnd:0};
 
 function toast(text){const el=document.querySelector('#toast');if(!el)return;el.textContent=text;el.classList.add('show');clearTimeout(toast.timer);toast.timer=setTimeout(()=>el.classList.remove('show'),3200);}
 function destroyChest(){if(state.chest){state.chest.destroy();state.chest=null;}}
 function resetForRun(runId){destroyChest();state.runId=runId;state.mimic=null;state.finished=false;state.lungeAt=0;state.lungeEnd=0;}
-function activeArena(){const game=globalThis.Phaser?.GAMES?.find(Boolean);return game?.scene?.getScene?.('Arena')||null;}
+function activeArena(){return Game.scene||null;}
 
 function createHungryChest(scene){const at=hungryChestPosition(scene.map);if(!at)return;const image=scene.add.image(at.x,at.y,'props','cell7').setDisplaySize(66,66).setOrigin(.5,.72).setDepth(at.y).setTint(0xb5a0c9);image.setData('hungryChest',true);state.chest=image;}
 

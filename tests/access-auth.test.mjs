@@ -65,6 +65,7 @@ async function setupAccess() {
         return {
           async first() { return sqlite.prepare(sql).get(...args) || null; },
           async run() { return sqlite.prepare(sql).run(...args); },
+          async all() { return {results: sqlite.prepare(sql).all(...args)}; },
           sql, args
         };
       }};

@@ -45,6 +45,7 @@ const art=id=>{const custom={might:0,haste:1,vitality:2,magnet:3,wand:4};if(cust
 const button=(text,id,cls='secondary')=>`<button class="${cls}" id="${id}">${text}</button>`;
 let selectedCharacter='knight',selectedMap='courtyard';
 let scene,soundOn=true,audio;
+export {scene};
 try{soundOn=localStorage.getItem('fallen-keep-sound')!=='off';}catch{}
 function beep(freq=350,dur=.06,type='sine',vol=.03){if(!soundOn)return;try{audio??=new (window.AudioContext||window.webkitAudioContext)();if(audio.state==='suspended')audio.resume();const o=audio.createOscillator(),g=audio.createGain();o.type=type;o.frequency.setValueAtTime(freq,audio.currentTime);o.frequency.exponentialRampToValueAtTime(freq*.65,audio.currentTime+dur);g.gain.setValueAtTime(vol,audio.currentTime);g.gain.exponentialRampToValueAtTime(.0001,audio.currentTime+dur);o.connect(g);g.connect(audio.destination);o.start();o.stop(audio.currentTime+dur);}catch{}}
 function toast(text){$('#toast').textContent=text;$('#toast').classList.add('show');clearTimeout(toast.timer);toast.timer=setTimeout(()=>$('#toast').classList.remove('show'),2300);}
