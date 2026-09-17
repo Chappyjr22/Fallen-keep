@@ -17,9 +17,11 @@ test('account discoveries hide one-time events after completion',()=>{
  assert.deepEqual(visibleMapEvents('basement',{profile,revealSecrets:true,showDiscovered:true}).map(e=>e.id),['hungry_chest']);
 });
 
-test('hidden secrets stay off the map until secret reveal is enabled',()=>{
- assert.deepEqual(visibleMapEvents('courtyard',{}),[]);
- assert.deepEqual(visibleMapEvents('courtyard',{revealSecrets:true}).map(e=>e.id),['forgotten_grave']);
+test('forgotten grave stays hidden and requires Soul Lantern',()=>{
+ assert.deepEqual(visibleMapEvents('courtyard',{revealSecrets:true,inventory:{sword:1}}),[]);
+ assert.deepEqual(visibleMapEvents('courtyard',{revealSecrets:true,inventory:{lantern:1}}).map(e=>e.id),['forgotten_grave']);
+ assert.equal(eventConditionsMet('forgotten_grave',{inventory:{lantern:1}}),true);
+ assert.equal(eventConditionsMet('forgotten_grave',{inventory:{sword:1}}),false);
 });
 
 test('conditional throne secret enforces equipment and king requirements',()=>{
